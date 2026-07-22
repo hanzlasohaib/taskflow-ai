@@ -1,0 +1,12 @@
+{
+  "extends": "@taskflow/config/typescript/base.json",
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": true,
+    "rootDir": "src"
+  },
+  "include": ["src"]
+}

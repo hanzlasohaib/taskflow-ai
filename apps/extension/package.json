@@ -1,0 +1,6 @@
+{
+  "name": "@taskflow/extension",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Chrome MV3 extension stub — implemented in Phase 8"
+}

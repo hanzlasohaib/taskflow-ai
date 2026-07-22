@@ -1,0 +1,17 @@
+{
+  "name": "@taskflow/types",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"no lint yet\""
+  },
+  "devDependencies": {
+    "@taskflow/config": "workspace:*",
+    "typescript": "^5.8.3"
+  }
+}

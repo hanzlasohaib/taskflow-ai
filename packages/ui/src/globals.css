@@ -1,0 +1,13 @@
+/* Baseline shared styles — Figma tokens will replace placeholders after Design Gate D.05 */
+:root {
+  --background: #f5f7fa;
+  --foreground: #0f172a;
+  --primary: #0f766e;
+  --primary-foreground: #ffffff;
+  --border: #d7dee8;
+  --radius: 0.5rem;
+}
+
+* {
+  box-sizing: border-box;
+}

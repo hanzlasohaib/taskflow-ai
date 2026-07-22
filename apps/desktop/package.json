@@ -1,0 +1,6 @@
+{
+  "name": "@taskflow/desktop",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Tauri desktop shell stub — implemented in Phase 10"
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@taskflow/config",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./typescript/base.json": "./typescript/base.json",
+    "./typescript/nextjs.json": "./typescript/nextjs.json",
+    "./typescript/library.json": "./typescript/library.json",
+    "./eslint/base.js": "./eslint/base.js"
+  },
+  "files": [
+    "typescript",
+    "eslint"
+  ]
+}
