@@ -65,9 +65,25 @@ pnpm dev
 | `pnpm typecheck` | Typecheck via Turborepo |
 | `pnpm format` | Format with Prettier |
 
+## Authentication setup (Phase 2)
+
+1. Create a Supabase project and copy the Postgres connection strings into `apps/web/.env.local` (`DATABASE_URL` + `DIRECT_URL`).
+2. Set `BETTER_AUTH_SECRET` (e.g. `openssl rand -base64 32`) and `BETTER_AUTH_URL` / `NEXT_PUBLIC_APP_URL`.
+3. Add Resend (`RESEND_API_KEY`, `EMAIL_FROM`) for verification, welcome, and password-reset emails.
+4. Optionally add Google reCAPTCHA v3 keys. If unset, captcha is skipped for local development.
+5. Apply migrations:
+
+```bash
+pnpm --filter @taskflow/web db:deploy
+# or during local iteration:
+pnpm --filter @taskflow/web db:migrate
+```
+
+6. Run the web app and exercise `/signup`, email verify, `/login`, `/forgot-password`.
+
 ## Design / UI note
 
-Infrastructure and backend can proceed now. **UI theming** (tokens, dashboard, styled auth) waits until the Figma dashboard design is frozen (Design Gate **D.05** in `docs/TASKS.md`).
+**UI theming** (tokens, dashboard layout, styled auth) waits until the Figma dashboard design is frozen (Design Gate **D.05** in `docs/TASKS.md`). Auth forms are functional placeholders until then.
 
 ## License
 

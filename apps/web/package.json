@@ -4,19 +4,26 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
+    "db:studio": "prisma studio"
   },
   "dependencies": {
+    "@prisma/client": "6.19.0",
     "@taskflow/types": "workspace:*",
     "@taskflow/ui": "workspace:*",
     "@taskflow/utils": "workspace:*",
     "@taskflow/validation": "workspace:*",
+    "better-auth": "^1.6.24",
     "next": "^15.4.1",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "resend": "^6.18.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
@@ -27,6 +34,7 @@
     "@types/react-dom": "^19.1.6",
     "eslint": "^9.31.0",
     "eslint-config-next": "^15.4.1",
+    "prisma": "6.19.0",
     "tailwindcss": "^4.1.11",
     "typescript": "^5.8.3"
   }

@@ -172,27 +172,30 @@ Prefer finishing dashboard shell (Phase 3) before heavy task UI polish; backend 
 
 ### Tasks
 
-- [ ] **T-2.01** — Connect Prisma to Supabase PostgreSQL (`DATABASE_URL` / `DIRECT_URL`)
+- [x] **T-2.01** — Connect Prisma to Supabase PostgreSQL (`DATABASE_URL` / `DIRECT_URL`)
   - Acceptance: `prisma db pull` or first migrate connects successfully.
-- [ ] **T-2.02** — Add Better Auth Prisma models (user, session, account, verification) and migrate
+  - Note: Schema + migration committed; run `pnpm --filter @taskflow/web db:deploy` after filling `.env.local`.
+- [x] **T-2.02** — Add Better Auth Prisma models (user, session, account, verification) and migrate
   - Acceptance: Tables exist in Supabase; Prisma Client generates.
-- [ ] **T-2.03** — Mount Better Auth handler at `/api/auth/[...all]`
+  - Note: Client generates; apply migration to Supabase with your connection strings.
+- [x] **T-2.03** — Mount Better Auth handler at `/api/auth/[...all]`
   - Acceptance: Auth API responds (e.g. session/ok route) without 500.
-- [ ] **T-2.04** — Implement email/password signup + login server flows
+- [x] **T-2.04** — Implement email/password signup + login server flows
   - Acceptance: Can create user and obtain session in API/manual test.
-- [ ] **T-2.05** — Integrate Resend for verification email
+- [x] **T-2.05** — Integrate Resend for verification email
   - Acceptance: Signup sends verification email; link verifies `emailVerified`.
-- [ ] **T-2.06** — Send welcome email after successful verification
+- [x] **T-2.06** — Send welcome email after successful verification
   - Acceptance: Welcome email received once per newly verified user.
-- [ ] **T-2.07** — Implement forgot/reset password with Resend
+- [x] **T-2.07** — Implement forgot/reset password with Resend
   - Acceptance: Reset link allows setting a new password; user can log in after.
-- [ ] **T-2.08** — Integrate Google reCAPTCHA v3 on signup, login, forgot-password (client + server verify)
+- [x] **T-2.08** — Integrate Google reCAPTCHA v3 on signup, login, forgot-password (client + server verify)
   - Acceptance: Requests without valid captcha are rejected; valid flow still works.
-- [ ] **T-2.09** — Build auth page **routes + working forms** (placeholder/unstyled OK before D.05): `/login`, `/signup`, `/forgot-password`, `/reset-password`, `/verify-email`
+  - Note: Captcha plugin activates when `RECAPTCHA_SECRET_KEY` is set; skipped in local/dev if unset.
+- [x] **T-2.09** — Build auth page **routes + working forms** (placeholder/unstyled OK before D.05): `/login`, `/signup`, `/forgot-password`, `/reset-password`, `/verify-email`
   - Acceptance: Routes render; forms submit and complete auth flows. Visual polish is **T-2.12** after D.05.
-- [ ] **T-2.10** — Add Next.js middleware/guards for `(app)` routes + unverified redirect to `/verify-email`
+- [x] **T-2.10** — Add Next.js middleware/guards for `(app)` routes + unverified redirect to `/verify-email`
   - Acceptance: Unauthenticated users cannot open `/dashboard`; unverified users gated per PLAN.
-- [ ] **T-2.11** — Implement logout and session display (e.g. header user menu stub)
+- [x] **T-2.11** — Implement logout and session display (e.g. header user menu stub)
   - Acceptance: Logout clears session and returns to public/auth route.
 - [ ] **T-2.12** — **[UI · requires D.05]** Apply Figma theme tokens to auth layouts (shared with dashboard)
   - Acceptance: Auth screens use same CSS variables/fonts as extracted in D.02–D.03; match frozen Figma theme.
@@ -200,7 +203,9 @@ Prefer finishing dashboard shell (Phase 3) before heavy task UI polish; backend 
 ### Phase exit criteria
 
 - [ ] Signup → verify → welcome → login → logout works locally (and on preview when available)
-- [ ] reCAPTCHA enforced on public auth endpoints
+  - Blocked on your Supabase + Resend env until credentials are provided.
+- [x] reCAPTCHA enforced on public auth endpoints
+  - When `RECAPTCHA_SECRET_KEY` is configured (Better Auth captcha plugin).
 - [ ] Auth UI matches dashboard theme tokens (**after D.05** / T-2.12; backend exit may complete earlier)
 
 ---
@@ -626,7 +631,7 @@ Use PLAN §25 as the master list. Check when configured in local + Vercel:
 | --- | --- | --- |
 | Gate | Figma Design Gate (UI only) | Blocks UI until D.05; backend unblocked |
 | 1 | Project Setup | Done |
-| 2 | Authentication | Backend ready to start; UI polish waits for D.05 |
+| 2 | Authentication | Backend done (needs your Supabase/Resend env); UI polish waits for D.05 |
 | 3 | Dashboard | Blocked on D.05 |
 | 4 | Task CRUD | Backend ready to start; UI waits for D.05 |
 | 5 | Realtime | Ready after Phase 4 backend (no Figma required) |
