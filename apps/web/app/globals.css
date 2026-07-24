@@ -1,12 +1,174 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
+/* Figma Make theme — TaskFlow-AI (frozen) */
 :root {
-  --background: #f5f7fa;
-  --foreground: #0f172a;
+  --font-size: 16px;
+  --background: #f7f8fc;
+  --foreground: #161628;
+  --card: #ffffff;
+  --card-foreground: #161628;
+  --popover: #ffffff;
+  --popover-foreground: #161628;
+  --primary: #536dfe;
+  --primary-foreground: #ffffff;
+  --secondary: #00b8d4;
+  --secondary-foreground: #ffffff;
+  --muted: #f1f3fa;
+  --muted-foreground: #667085;
+  --accent: #00b8d4;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e4e7ec;
+  --input: #e4e7ec;
+  --input-background: #f7f8fc;
+  --switch-background: #d0d5dd;
+  --ring: #536dfe;
+  --chart-1: #536dfe;
+  --chart-2: #00b8d4;
+  --chart-3: #22c55e;
+  --chart-4: #f59e0b;
+  --chart-5: #8b5cf6;
+  --radius: 0.875rem;
+  --sidebar: #f1f3fa;
+  --sidebar-foreground: #161628;
+  --sidebar-primary: #536dfe;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e8eaef;
+  --sidebar-accent-foreground: #161628;
+  --sidebar-border: #e4e7ec;
+  --sidebar-ring: #536dfe;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+.dark {
+  --background: #040414;
+  --foreground: #eeeef8;
+  --card: #0b0b1f;
+  --card-foreground: #eeeef8;
+  --popover: #0e0e26;
+  --popover-foreground: #eeeef8;
+  --primary: #536dfe;
+  --primary-foreground: #ffffff;
+  --secondary: #00b8d4;
+  --secondary-foreground: #ffffff;
+  --muted: #161628;
+  --muted-foreground: #a8acc7;
+  --accent: #00b8d4;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.07);
+  --input: rgba(255, 255, 255, 0.05);
+  --input-background: #161628;
+  --switch-background: #2a2a50;
+  --ring: #536dfe;
+  --chart-1: #536dfe;
+  --chart-2: #00b8d4;
+  --chart-3: #22c55e;
+  --chart-4: #f59e0b;
+  --chart-5: #8b5cf6;
+  --sidebar: #06061a;
+  --sidebar-foreground: #eeeef8;
+  --sidebar-primary: #536dfe;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #161628;
+  --sidebar-accent-foreground: #eeeef8;
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+  --sidebar-ring: #536dfe;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-plus-jakarta), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans);
+    transition:
+      background-color 0.25s ease,
+      color 0.15s ease;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+  }
+
+  html {
+    font-size: var(--font-size);
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(128, 128, 180, 0.2);
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(128, 128, 180, 0.35);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }

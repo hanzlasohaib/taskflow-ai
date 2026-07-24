@@ -644,19 +644,19 @@ flowchart TD
 
 | Route | Access | Purpose |
 | --- | --- | --- |
-| `/` | Public | Landing |
+| `/` | Public | Interactive demo dashboard (seed + localStorage; no DB). Signed-in verified users redirect to `/dashboard` |
 | `/login` | Public | Login |
 | `/signup` | Public | Signup |
 | `/forgot-password` | Public | Request reset |
 | `/reset-password` | Public | Complete reset |
 | `/verify-email` | Auth | Verification instructions / status |
-| `/dashboard` | Auth + verified | Stats SaaS home |
+| `/dashboard` | Auth + verified | Personal workspace (Prisma) |
 | `/tasks` | Auth + verified | Task list / management |
 | `/tasks/[id]` | Auth + verified | Detail + canvas |
 | `/profile` | Auth + verified | Profile |
 | `/settings` | Auth + verified | Preferences / theme / account |
 
-**Guards:** Next.js middleware checks session cookie for `(app)` group; unverified users redirected to `/verify-email`.
+**Guards:** Next.js middleware checks session cookie for `(app)` group (`/dashboard`, `/tasks`, `/profile`, `/settings`); unverified users redirected to `/verify-email`. `/` stays public for guest demo mode.
 
 ### Mobile (Expo Router)
 

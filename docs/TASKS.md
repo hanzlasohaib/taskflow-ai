@@ -86,18 +86,18 @@ Feature Integration → Testing → Deployment
 
 ### Design Gate checklist
 
-- [ ] **D.01** — Receive dashboard Figma design via MCP
+- [x] **D.01** — Receive dashboard Figma design via MCP
   - Acceptance: File/node accessible; screenshot or design context retrieved.
-- [ ] **D.02** — Extract design tokens (color, typography, spacing, radius, shadows, light/dark if present)
+- [x] **D.02** — Extract design tokens (color, typography, spacing, radius, shadows, light/dark if present)
   - Acceptance: Token list written down (can live in TASKS notes or a short `docs/DESIGN-TOKENS.md` later); mapped to CSS variables plan.
-- [ ] **D.03** — Inventory reusable UI patterns from Figma (cards, sidebar, buttons, inputs, badges)
+- [x] **D.03** — Inventory reusable UI patterns from Figma (cards, sidebar, buttons, inputs, badges)
   - Acceptance: Component mapping notes exist for shadcn/ui equivalents.
-- [ ] **D.04** — Confirm auth screens will reuse the same tokens/components (no separate auth look)
+- [x] **D.04** — Confirm auth screens will reuse the same tokens/components (no separate auth look)
   - Acceptance: Explicit note in this file or PR description: auth follows dashboard theme.
-- [ ] **D.05** — Design frozen — **UI implementation** may begin
+- [x] **D.05** — Design frozen — **UI implementation** may begin
   - Acceptance: D.01–D.04 done; visual work (tokens, themed screens, nav, cards, motion) may start. Infra/backend did **not** need to wait for this.
 
-> Until **D.05** is checked: **do not** implement polished UI (tokens, themed layouts, dashboard, styled auth, animations). Backend and project setup **may proceed**.
+> Design Gate cleared (TaskFlow-AI Figma Make). Auth UI theme polish remains **T-2.12**.
 
 ---
 
@@ -220,32 +220,34 @@ Prefer finishing dashboard shell (Phase 3) before heavy task UI polish; backend 
 
 ### Tasks
 
-- [ ] **T-3.01** — Implement authenticated `AppShell` (sidebar/topbar per Figma)
+- [x] **T-3.01** — Implement authenticated `AppShell` (sidebar/topbar per Figma)
   - Acceptance: Shell matches Figma layout structure on desktop; usable on mobile width.
-- [ ] **T-3.02** — Add navigation to Dashboard, Tasks, Profile, Settings
+- [x] **T-3.02** — Add navigation to Dashboard, Tasks, Profile, Settings
   - Acceptance: All four routes reachable from shell; active state visible.
-- [ ] **T-3.03** — Implement `/dashboard` with stats cards (zero-state OK until Phase 4 wires real data)
+- [x] **T-3.03** — Implement `/dashboard` with stats cards (zero-state OK until Phase 4 wires real data)
   - Acceptance: Cards match Figma; show zeros/empty copy without crashing.
-- [ ] **T-3.04** — Add quick actions placeholders (New Task, Voice Task) linking to future flows
+- [x] **T-3.04** — Add quick actions placeholders (New Task, Voice Task) linking to future flows
   - Acceptance: Buttons visible per Figma; link or disabled with clear intent.
-- [ ] **T-3.05** — Implement light/dark/system theme toggle (`next-themes`) aligned with Figma modes
+- [x] **T-3.05** — Implement light/dark/system theme toggle (`next-themes`) aligned with Figma modes
   - Acceptance: Theme persists; both modes look intentional (no broken contrast).
-- [ ] **T-3.06** — Implement `/profile` page shell (name, email, avatar/initials)
+- [x] **T-3.06** — Implement `/profile` page shell (name, email, avatar/initials)
   - Acceptance: Shows current user fields from session.
-- [ ] **T-3.07** — Implement `/settings` page (theme control + sign out)
+- [x] **T-3.07** — Implement `/settings` page (theme control + sign out)
   - Acceptance: Theme change and sign out work from settings.
-- [ ] **T-3.08** — Responsive pass against Figma (desktop + mobile breakpoints)
+- [x] **T-3.08** — Responsive pass against Figma (desktop + mobile breakpoints)
   - Acceptance: No horizontal overflow on common phone width; primary actions reachable.
-- [ ] **T-3.09** — Motion polish (2–3 intentional Framer Motion moments per PLAN principles)
+- [x] **T-3.09** — Motion polish (2–3 intentional Framer Motion moments per PLAN principles)
   - Acceptance: Dashboard load/nav motion present; respects `prefers-reduced-motion`.
+- [x] **T-3.10** — Public interactive demo at `/` (guest mode)
+  - Acceptance: Guests use seed + `localStorage` (`taskflow-demo-v1`) with full UI CRUD; no Prisma/API task writes; Guest banner + soft-gates for account-only features; signed-in users redirect to `/dashboard`. Import-demo-after-login deferred.
 
 ### Phase exit criteria
 
-- [ ] Dashboard matches Figma composition for the main shell/stats
-- [ ] Theme toggle works
-- [ ] Profile + Settings routes complete for v1 shell
+- [x] Dashboard matches Figma composition for the main shell/stats
+- [x] Theme toggle works
+- [x] Profile + Settings routes complete for v1 shell
 - [ ] Auth + dashboard share one visual system
-
+- [x] Public demo workspace at `/` (local only; no auto-import after login)
 ---
 
 ## Phase 4 — Task CRUD
@@ -258,34 +260,34 @@ Prefer finishing dashboard shell (Phase 3) before heavy task UI polish; backend 
 
 ### Tasks
 
-- [ ] **T-4.01** — Add Prisma `Task` model + enums (`status`, `priority`) + migrate
+- [x] **T-4.01** — Add Prisma `Task` model + enums (`status`, `priority`) + migrate
   - Acceptance: Table exists with indexes planned in PLAN §8.
-- [ ] **T-4.02** — Add Zod schemas in `@taskflow/validation` for create/update/list query
+- [x] **T-4.02** — Add Zod schemas in `@taskflow/validation` for create/update/list query
   - Acceptance: Invalid payloads fail schema parse in unit or manual check.
-- [ ] **T-4.03** — Implement `GET/POST /api/tasks` with ownership from session
+- [x] **T-4.03** — Implement `GET/POST /api/tasks` with ownership from session
   - Acceptance: User A cannot list User B tasks; create returns owned task.
-- [ ] **T-4.04** — Implement `GET/PATCH/DELETE /api/tasks/[id]` with ownership checks
+- [x] **T-4.04** — Implement `GET/PATCH/DELETE /api/tasks/[id]` with ownership checks
   - Acceptance: 404/403 for other users’ IDs; patch/delete work for owner.
-- [ ] **T-4.05** — Implement `GET /api/tasks/stats`
+- [x] **T-4.05** — Implement `GET /api/tasks/stats`
   - Acceptance: Counts match DB for current user (total, by status, overdue, etc. per PLAN).
-- [ ] **T-4.06** — Add Server Actions for web form mutations where appropriate
+- [x] **T-4.06** — Add Server Actions for web form mutations where appropriate
   - Acceptance: Creating/updating from web UI works without exposing Prisma to client.
 - [ ] **T-4.07** — **[UI · requires D.05]** Build `/tasks` list UI (search, status/priority filters, sort) themed from Figma
   - Acceptance: Filters change results; search `q` matches titles; empty state shown.
 - [ ] **T-4.08** — **[UI · requires D.05]** Build task create/edit form + `/tasks/[id]` detail (minimal unstyled form OK earlier for API testing only)
   - Acceptance: Full CRUD from UI; validation errors display on fields; final UI matches Figma.
-- [ ] **T-4.09** — **[UI · requires D.05]** Wire dashboard stats cards + recent tasks to real API data
+- [x] **T-4.09** — **[UI · requires D.05]** Wire dashboard stats cards + recent tasks to real API data
   - Acceptance: Creating a task updates dashboard stats after refresh/navigation.
-- [ ] **T-4.10** — Consistent API error envelope `{ error: { code, message, details? } }`
+- [x] **T-4.10** — Consistent API error envelope `{ error: { code, message, details? } }`
   - Acceptance: Validation and auth failures return documented shape.
-- [ ] **T-4.11** — Set `completedAt` when status becomes `DONE`; clear when reopened
+- [x] **T-4.11** — Set `completedAt` when status becomes `DONE`; clear when reopened
   - Acceptance: DB field updates correctly on status transitions.
 
 ### Phase exit criteria
 
-- [ ] CRUD + search/filter/sort work for owned tasks only
-- [ ] Dashboard reflects real stats
-- [ ] Shared validation package used by API and forms
+- [x] CRUD + search/filter/sort work for owned tasks only
+- [x] Dashboard reflects real stats
+- [x] Shared validation package used by API and forms
 
 ---
 
@@ -632,8 +634,8 @@ Use PLAN §25 as the master list. Check when configured in local + Vercel:
 | Gate | Figma Design Gate (UI only) | Blocks UI until D.05; backend unblocked |
 | 1 | Project Setup | Done |
 | 2 | Authentication | Backend done (needs your Supabase/Resend env); UI polish waits for D.05 |
-| 3 | Dashboard | Blocked on D.05 |
-| 4 | Task CRUD | Backend ready to start; UI waits for D.05 |
+| 3 | Dashboard | Done (shell + stats wired to Phase 4 APIs); auth theme polish still T-2.12 |
+| 4 | Task CRUD | Backend done (T-4.01–06, 10–11); UI polish waits for D.05 / T-4.07–09 |
 | 5 | Realtime | Ready after Phase 4 backend (no Figma required) |
 | 6 | Voice (Deepgram) | API ready after Phase 4; UI chrome waits for D.05 |
 | 7 | HTML Canvas | API/canvas logic ready after Phase 4; polish waits for D.05 |
