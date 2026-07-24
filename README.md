@@ -93,6 +93,46 @@ Auth, dashboard, and tasks share the frozen Figma Make theme tokens (`apps/web/a
 4. Profile → Edit Photo uploads a cropped 256×256 WEBP to `{userId}/avatar.webp` (upsert).
 5. `User.image` stores only the **object path** (`{userId}/avatar.webp`). At read time the server mints a short-lived signed URL for the browser — never persist signed or public URLs.
 
+## Realtime setup (Phase 5)
+
+Task list and dashboard stay live across tabs via Supabase Realtime (`postgres_changes` on `"task"`). CRUD still goes through the Next.js API / Prisma; the browser only **subscribes**.
+
+### 1. Env
+
+In `apps/web/.env.local`:
+
+| Variable | Where to find it |
+| --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL` | Project Settings → API → Project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Project Settings → API → `anon` `public` key |
+| `SUPABASE_JWT_SECRET` | Project Settings → API → JWT Secret (**server-only**) |
+
+Never put `SUPABASE_SERVICE_ROLE_KEY` or `SUPABASE_JWT_SECRET` in client code or `NEXT_PUBLIC_*` vars.
+
+### 2. Apply migration (RLS + publication)
+
+```bash
+pnpm --filter @taskflow/web db:deploy
+```
+
+This migration:
+
+- Enables RLS on `"task"` with `SELECT` only when `(auth.jwt() ->> 'sub') = "userId"`
+- Grants `SELECT` to `authenticated` / `anon` (RLS still filters rows)
+- Adds `"task"` to the `supabase_realtime` publication
+
+Prisma writes use the DB URL (bypasses RLS). Realtime clients use a short-lived JWT minted by `GET /api/realtime/token` after a Better Auth session check (`sub` = Better Auth user id).
+
+### 3. Verify in Supabase Dashboard (optional)
+
+- **Database → Publications**: `"task"` listed under `supabase_realtime`
+- **Authentication is not required** for TaskFlow users (Better Auth owns sessions); Realtime auth is the custom JWT above
+
+### 4. Manual tests
+
+1. **Same user, two browsers** — sign in as the same account in two windows; create/edit/delete a task in A; B should update without a manual refresh.
+2. **Two users** — sign in as user B in another browser; B must not see user A’s tasks via list UI or realtime (RLS + `userId` filter).
+
 ## License
 
 Private / internship project unless otherwise stated.

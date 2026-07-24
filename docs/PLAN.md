@@ -758,22 +758,49 @@ Keep Route Handlers for:
 
 ## 15. Realtime Strategy
 
-### Why Supabase Realtime
+TaskFlow uses a **hybrid realtime architecture**: Supabase Realtime for database-backed events, and custom WebSockets later for high-frequency collaborative / streaming features. The two stacks use different channels and can run concurrently in the same browser session without conflict.
 
-- Database already on Supabase PostgreSQL — realtime pairs naturally with `postgres_changes`.
-- Avoids building a custom WebSocket server on Vercel (serverless is a poor fit for long-lived sockets).
-- Clients subscribe directly to row changes filtered by `user_id`.
+### Hybrid ownership
 
-### What we subscribe to
+| Concern | Technology | When |
+| --- | --- | --- |
+| Task CRUD (create / update / delete) | Supabase Realtime (`postgres_changes`) | Now (Phase 5) |
+| Task completion and status transitions | Supabase Realtime | Now (Phase 5) |
+| Notifications | Supabase Realtime | As notification features land |
+| Live dashboard statistics | Supabase Realtime (invalidate / refetch on row events) | Now (Phase 5) |
+| Presence (multi-device / online) | Supabase Realtime presence | Optional v1 / later |
+| Sketch row metadata persistence sync | Supabase Realtime on `Sketch` | Phase 7+ |
+| Live canvas strokes, cursor positions | Custom WebSockets | Later (collaborative canvas) |
+| Voice streaming, live chat | Custom WebSockets | Later phases |
+| AI streaming responses | Custom WebSockets or HTTP streaming / SSE (depending on the API) | Later phases |
+
+### Why Supabase Realtime (production now)
+
+- Database already on Supabase PostgreSQL — `postgres_changes` pairs naturally with durable row truth.
+- Clients subscribe to filtered row changes (`"userId"`) without TaskFlow hosting a socket server on Vercel.
+- RLS keeps realtime payloads limited to the authenticated owner.
+- Ideal for task CRUD, notifications, live stats, and presence tied to persisted state.
+
+### Why WebSockets later (not now)
+
+- Custom WebSockets are reserved for **high-frequency / ephemeral** collaboration (strokes, cursors, chat frames, voice streams) that should not round-trip through Postgres for every event.
+- Supabase Realtime remains the source of truth for **durable DB events**; WebSockets carry transient messages that may later be summarized or persisted via REST/Prisma.
+- Channels do not conflict: e.g. a user can draw on a canvas over WebSockets while another client receives task inserts via Supabase Realtime.
+- Vercel serverless must **not** host the future WebSocket process. Introduce a dedicated durable host (e.g. PartyKit, Fly.io, or a dedicated Node service) only when a collaborative feature actually needs it.
+- **No WebSocket server, client scaffold, or deploy config in Phase 5** — document the boundary now; implement when Phase 7+ collaboration or streaming features require it.
+
+### What we subscribe to (Supabase)
 
 | Channel pattern | Events | Purpose |
 | --- | --- | --- |
 | `tasks:user:{userId}` | INSERT/UPDATE/DELETE on `Task` | Live lists & stats refresh |
-| `sketches:user:{userId}` | INSERT/UPDATE/DELETE on `Sketch` | Live canvas metadata (optional) |
+| `sketches:user:{userId}` | INSERT/UPDATE/DELETE on `Sketch` | Live canvas **metadata** after save (optional; not live stroke streaming) |
 
-### Connection lifecycle
+Prisma column names are camelCase (`"userId"`); realtime filters use `userId=eq.{id}`.
 
-1. Authenticated client obtains Supabase anon key + user JWT (or use Realtime auth aligned with project RLS policies).
+### Connection lifecycle (Supabase)
+
+1. Authenticated client obtains Supabase anon key + user JWT (Better Auth session → short-lived JWT aligned with RLS).
 2. Create single Supabase client per app session.
 3. Subscribe after auth; unsubscribe on logout / route teardown.
 4. Reconnect with exponential backoff on network drop.
@@ -781,31 +808,34 @@ Keep Route Handlers for:
 
 ### Presence
 
-- v1: optional presence on dashboard channel for “multi-device active” indicator (nice-to-have).
-- Not required for core assignment demo.
+- Prefer Supabase Realtime presence for “multi-device active” / online indicators when needed.
+- v1: optional on dashboard channel; not required for the core assignment demo.
+- Cursor-level presence on a shared canvas is a WebSockets concern (later).
 
 ### Broadcast
 
-- Not primary for v1. Prefer `postgres_changes` so DB remains source of truth.
-- Broadcast reserved for ephemeral UX (e.g., “voice transcription in progress”) if needed later.
+- Not primary for v1 DB sync. Prefer `postgres_changes` so Postgres remains source of truth.
+- Supabase broadcast may cover light ephemeral UX (e.g. “voice transcription in progress”) without a custom WS server.
+- High-volume collaborative streams still wait for the dedicated WebSocket host.
 
 ### Database events
 
 - Enable replication for `Task` and `Sketch` tables.
-- RLS policies: users can only select their rows (required for safe client-side subscriptions).
+- RLS policies: users can only select their rows (required for safe client-side subscriptions). Use `(auth.jwt() ->> 'sub') = "userId"` when Better Auth ids are text (not UUIDs).
 - Prisma writes still go through the server with service role / direct DB URL; RLS protects realtime clients.
 
 ### Best practices
 
-- Filter server-side (`filter: user_id=eq.{id}`) always.
+- Filter server-side (`filter: userId=eq.{id}`) always.
 - Keep payloads small; refetch detail on open.
-- Debounce UI merges when bursts of updates arrive.
+- Debounce UI merges when bursts of updates arrive (e.g. `router.refresh()`).
 - Never put service-role keys in clients.
+- Keep Supabase and future WebSocket clients on separate channel namespaces so features can be enabled independently.
 
 ### Vercel considerations
 
-- Web app on Vercel does **not** host the realtime socket server.
-- Browser connects to Supabase Realtime endpoints directly.
+- Web app on Vercel does **not** host Supabase Realtime sockets — the browser connects to Supabase endpoints directly.
+- Future custom WebSockets also run **off** Vercel serverless (dedicated durable host).
 - Serverless functions remain stateless request/response for CRUD and AI proxy.
 - Avoid relying on in-memory state across invocations.
 
@@ -1453,16 +1483,16 @@ Target length: 8–12 minutes. Speak to requirements explicitly by name.
 | **Cons** | Must carefully align Better Auth schema + RLS for realtime |
 | **Trade-offs** | More integration work than “Supabase Auth only,” better control |
 
-### ADR-004 — Supabase Realtime instead of custom websockets
+### ADR-004 — Hybrid realtime (Supabase + future WebSockets)
 
 | | |
 | --- | --- |
-| **Decision** | Clients subscribe to Supabase `postgres_changes` |
-| **Why** | Vercel serverless cannot host durable sockets well |
-| **Alternatives** | Pusher; PartyKit; Socket.IO on a VPS |
-| **Pros** | Managed; tied to DB truth |
-| **Cons** | Requires RLS setup; another client SDK |
-| **Trade-offs** | Extra Supabase config for less infra burden |
+| **Decision** | Supabase Realtime for database-backed realtime (task CRUD, notifications, live stats, presence, PostgreSQL events). Custom WebSockets reserved for future collaborative / streaming features (live canvas strokes, cursors, chat, voice streaming, AI streams). |
+| **Why** | DB row events stay managed, RLS-safe, and tied to Postgres truth without hosting sockets on Vercel. High-frequency ephemeral collaboration needs a different transport that should not write every event through Postgres. Vercel serverless cannot host durable WebSocket processes. |
+| **Alternatives** | Supabase-only forever; WebSockets-only for everything; Pusher/PartyKit as the sole realtime bus |
+| **Pros** | Clear ownership per event type; Phase 5 ships without WS infra; stacks do not conflict and can run concurrently |
+| **Cons** | Dual-stack complexity when collaborative features arrive; second host/auth story for WebSockets later |
+| **Trade-offs** | Accept deferred WebSocket infrastructure until a Phase 7+ collaborative or streaming feature actually needs it; do not scaffold a WS server until then |
 
 ### ADR-005 — Deepgram via server proxy
 

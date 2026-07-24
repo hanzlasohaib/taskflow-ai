@@ -301,26 +301,26 @@ Prefer finishing dashboard shell (Phase 3) before heavy task UI polish; backend 
 
 ### Tasks
 
-- [ ] **T-5.01** — Enable replication for `Task` (and `Sketch` when present) in Supabase
+- [x] **T-5.01** — Enable replication for `Task` (and `Sketch` when present) in Supabase
   - Acceptance: Tables listed for realtime publication.
-- [ ] **T-5.02** — Add RLS policies so users can only `SELECT` their own rows
+- [x] **T-5.02** — Add RLS policies so users can only `SELECT` their own rows
   - Acceptance: Second user JWT cannot read first user’s rows via Supabase client.
-- [ ] **T-5.03** — Create browser Supabase client using anon key + auth alignment strategy from PLAN
+- [x] **T-5.03** — Create browser Supabase client using anon key + auth alignment strategy from PLAN
   - Acceptance: Client connects without service-role key in bundle.
-- [ ] **T-5.04** — Subscribe to `postgres_changes` filtered by `user_id` on task list/dashboard
+- [x] **T-5.04** — Subscribe to `postgres_changes` filtered by `user_id` on task list/dashboard
   - Acceptance: Insert/update/delete in window A appears in window B without manual refresh.
-- [ ] **T-5.05** — Invalidate/refetch TanStack Query (or equivalent) caches on realtime events
+- [x] **T-5.05** — Invalidate/refetch TanStack Query (or equivalent) caches on realtime events
   - Acceptance: Stats and lists stay consistent after burst updates.
-- [ ] **T-5.06** — Unsubscribe on logout; reconnect/refetch on resume
+- [x] **T-5.06** — Unsubscribe on logout; reconnect/refetch on resume
   - Acceptance: No duplicate subscriptions after navigate/logout/login; no console error storms.
-- [ ] **T-5.07** — Document realtime setup steps in README
+- [x] **T-5.07** — Document realtime setup steps in README
   - Acceptance: Another dev can enable RLS/replication from docs.
 
 ### Phase exit criteria
 
-- [ ] Two browsers, same user: live sync verified
-- [ ] Two users: no data leakage via realtime
-- [ ] Service role never shipped to client
+- [x] Two browsers, same user: live sync verified
+- [x] Two users: no data leakage via realtime
+- [x] Service role never shipped to client
 
 ---
 
@@ -606,7 +606,7 @@ Use PLAN §25 as the master list. Check when configured in local + Vercel:
 - [ ] `RESEND_API_KEY` / `EMAIL_FROM`
 - [ ] `RECAPTCHA_SECRET_KEY` / `NEXT_PUBLIC_RECAPTCHA_SITE_KEY`
 - [ ] `DEEPGRAM_API_KEY`
-- [ ] `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` / `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- [ ] `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` / `SUPABASE_JWT_SECRET` / `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - [ ] `NEXT_PUBLIC_APP_URL`
 - [ ] Storage bucket name / sketch storage config
 - [ ] `EXPO_PUBLIC_API_URL` (+ Supabase public vars for mobile)
@@ -621,7 +621,7 @@ Use PLAN §25 as the master list. Check when configured in local + Vercel:
 - [ ] reCAPTCHA on public auth endpoints
 - [ ] Rate limiting on auth, voice, task create
 - [ ] No secrets in client bundles
-- [ ] RLS enabled for realtime-exposed tables
+- [x] RLS enabled for realtime-exposed tables
 - [ ] Upload MIME/size limits
 - [ ] CORS restricted to known origins
 
@@ -636,7 +636,7 @@ Use PLAN §25 as the master list. Check when configured in local + Vercel:
 | 2 | Authentication | Done (env credentials still needed for email E2E) |
 | 3 | Dashboard | Done |
 | 4 | Task CRUD | Done |
-| 5 | Realtime | Not started |
+| 5 | Realtime | Done |
 | 6 | Voice (Deepgram) | Not started |
 | 7 | HTML Canvas | Not started |
 | 8 | Chrome Extension | Not started |
