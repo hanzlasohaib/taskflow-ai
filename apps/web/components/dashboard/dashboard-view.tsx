@@ -42,8 +42,8 @@ import { Area, AreaChart, ResponsiveContainer } from "recharts";
 
 import { useShellActions } from "@/components/shell/app-shell";
 import { UserAvatar } from "@/components/shell/user-avatar";
-import { PriorityBadge } from "@/components/tasks/priority-badge";
-import { PriorityDot, StatusBadge } from "@/components/tasks/status-badge";
+import { PriorityBadge, PriorityDot } from "@/components/tasks/priority-badge";
+import { StatusBadge } from "@/components/tasks/status-badge";
 import type { DemoTaskInput } from "@/lib/demo/store";
 import { cn } from "@/lib/utils";
 
@@ -215,45 +215,45 @@ export function DashboardView({
             <button
               type="button"
               onClick={() => setCreateOpen(true)}
-              className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.98]"
+              className="inline-flex h-10 items-center gap-2 rounded-xl bg-primary px-4 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.98]"
             >
-              <Plus className="h-4 w-4" aria-hidden /> Add Task
+              <Plus className="h-4 w-4 shrink-0" aria-hidden /> Add Task
             </button>
           ) : (
             <Link
               href="/tasks"
-              className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.98]"
+              className="inline-flex h-10 items-center gap-2 rounded-xl bg-primary px-4 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.98]"
             >
-              <Plus className="h-4 w-4" aria-hidden /> Add Task
+              <Plus className="h-4 w-4 shrink-0" aria-hidden /> Add Task
             </Link>
           )}
           <button
             type="button"
             onClick={openVoice}
-            className="flex items-center gap-2 rounded-xl border border-border bg-foreground/[0.04] px-4 py-2.5 text-sm font-medium text-foreground transition-all hover:border-foreground/12 hover:bg-foreground/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.98]"
+            className="inline-flex h-10 items-center gap-2 rounded-xl border border-border bg-foreground/[0.04] px-4 text-sm font-medium text-foreground transition-all hover:border-foreground/12 hover:bg-foreground/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.98]"
           >
-            <Mic className="h-4 w-4 text-primary" aria-hidden /> Voice Task
+            <Mic className="h-4 w-4 shrink-0 text-primary" aria-hidden /> Voice Task
           </button>
           <button
             type="button"
             disabled
             title="Canvas arrives in a later phase"
-            className="flex items-center gap-2 rounded-xl border border-border bg-foreground/[0.04] px-4 py-2.5 text-sm font-medium text-foreground opacity-70 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="inline-flex h-10 items-center gap-2 rounded-xl border border-border bg-foreground/[0.04] px-4 text-sm font-medium text-foreground opacity-70 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <Pencil className="h-4 w-4 text-secondary" aria-hidden /> Canvas
+            <Pencil className="h-4 w-4 shrink-0 text-secondary" aria-hidden /> Canvas
           </button>
           <button
             type="button"
             onClick={openAi}
-            className="flex items-center gap-2 rounded-xl border border-border bg-foreground/[0.04] px-4 py-2.5 text-sm font-medium text-foreground transition-all hover:border-foreground/12 hover:bg-foreground/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.98]"
+            className="inline-flex h-10 items-center gap-2 rounded-xl border border-border bg-foreground/[0.04] px-4 text-sm font-medium text-foreground transition-all hover:border-foreground/12 hover:bg-foreground/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.98]"
           >
-            <Sparkles className="h-4 w-4 text-accent" aria-hidden /> AI Assistant
+            <Sparkles className="h-4 w-4 shrink-0 text-accent" aria-hidden /> AI Assistant
           </button>
           {isDemo ? (
             <button
               type="button"
               onClick={() => requireAccount("sync")}
-              className="flex items-center gap-2 rounded-xl border border-border bg-foreground/[0.04] px-4 py-2.5 text-sm font-medium text-foreground transition-all hover:border-foreground/12 hover:bg-foreground/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex h-10 items-center gap-2 rounded-xl border border-border bg-foreground/[0.04] px-4 text-sm font-medium text-foreground transition-all hover:border-foreground/12 hover:bg-foreground/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               Sync
             </button>
@@ -310,8 +310,11 @@ export function DashboardView({
       <div className="grid gap-8 px-4 pb-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:px-8">
         <div className="min-w-0 space-y-8">
           <section aria-labelledby="todays-tasks-heading">
-            <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-              <h2 id="todays-tasks-heading" className="text-base font-semibold text-foreground">
+            <div className="relative mb-4 flex flex-wrap items-center justify-center gap-3">
+              <h2
+                id="todays-tasks-heading"
+                className="w-full text-base font-semibold text-foreground sm:absolute sm:top-1/2 sm:left-0 sm:w-auto sm:-translate-y-1/2"
+              >
                 Today&apos;s Tasks
               </h2>
               <div
@@ -341,8 +344,9 @@ export function DashboardView({
 
             <div className="space-y-2">
               {shown.length === 0 ? (
-                <div className="flex items-center justify-center rounded-2xl border border-dashed border-border py-10 text-sm text-muted-foreground">
-                  No tasks in this category
+                <div className="flex flex-col items-center justify-center gap-1 rounded-2xl border border-dashed border-border bg-foreground/[0.02] px-6 py-10 text-center">
+                  <p className="text-sm font-medium text-foreground">No tasks found.</p>
+                  <p className="text-xs text-muted-foreground">Try another filter or create a new task.</p>
                 </div>
               ) : (
                 shown.map((task) => (
@@ -400,17 +404,18 @@ export function DashboardView({
               </h2>
               <span className="text-[11px] text-muted-foreground">Coming with Deepgram</span>
             </div>
-            <div className="rounded-2xl border border-dashed border-border bg-card p-6 text-center">
+            <div className="rounded-2xl border border-dashed border-border bg-foreground/[0.02] p-6 text-center">
               <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10">
                 <FileAudio className="h-4 w-4 text-primary" aria-hidden />
               </div>
-              <p className="text-sm text-muted-foreground">
-                Voice notes will appear here after Phase 6. Use Voice Task in the sidebar to preview the recording UI.
+              <p className="text-sm font-medium text-foreground">No voice notes yet.</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Voice notes will appear here after Phase 6. Use Voice Task to preview the recording UI.
               </p>
               <button
                 type="button"
                 disabled
-                className="mt-3 inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-[10px] text-muted-foreground"
+                className="mt-3 inline-flex h-8 items-center gap-1.5 rounded-lg px-2 text-[10px] text-muted-foreground"
               >
                 <Play className="h-3 w-3" aria-hidden /> Play · Convert to Task
               </button>

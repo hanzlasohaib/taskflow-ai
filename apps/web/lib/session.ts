@@ -13,9 +13,15 @@ export class AuthError extends Error {
 }
 
 export async function getSession(): Promise<Session | null> {
-  return auth.api.getSession({
-    headers: await headers(),
-  });
+  try {
+    return await auth.api.getSession({
+      headers: await headers(),
+    });
+  } catch (error) {
+    // DB unreachable / Better Auth internal errors must not 500 public pages (e.g. guest `/`).
+    console.error("[getSession] failed; treating as signed out", error);
+    return null;
+  }
 }
 
 export async function requireSession(): Promise<Session> {

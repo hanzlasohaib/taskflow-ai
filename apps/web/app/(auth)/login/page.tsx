@@ -4,6 +4,18 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState, type FormEvent } from "react";
 
+import {
+  authCardClass,
+  authErrorClass,
+  authInputClass,
+  authLabelClass,
+  authLinkClass,
+  authMutedClass,
+  authPrimaryButtonClass,
+  authTitleClass,
+  authWarningClass,
+} from "@/components/auth/auth-styles";
+import { Skeleton } from "@/components/ui/skeleton";
 import { authClient } from "@/lib/auth-client";
 import { captchaHeaders, getRecaptchaToken, isRecaptchaEnabled } from "@/lib/recaptcha";
 
@@ -44,43 +56,52 @@ function LoginForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4 rounded-lg border border-slate-200 bg-white p-6">
-      <h1 className="text-2xl font-semibold text-slate-900">Log in</h1>
+    <form onSubmit={onSubmit} className={authCardClass}>
+      <div className="space-y-1">
+        <h1 className={authTitleClass} style={{ fontFamily: "var(--font-display)" }}>
+          Log in
+        </h1>
+        <p className={authMutedClass}>Welcome back to your workspace.</p>
+      </div>
       {isRecaptchaEnabled ? null : (
-        <p className="text-xs text-amber-700">reCAPTCHA disabled — set NEXT_PUBLIC_RECAPTCHA_SITE_KEY.</p>
+        <p className={authWarningClass}>reCAPTCHA disabled — set NEXT_PUBLIC_RECAPTCHA_SITE_KEY.</p>
       )}
-      <label className="block space-y-1 text-sm">
+      <label className={authLabelClass}>
         <span>Email</span>
         <input
-          className="w-full rounded-md border border-slate-300 px-3 py-2"
+          className={authInputClass}
           type="email"
           required
+          autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
       </label>
-      <label className="block space-y-1 text-sm">
+      <label className={authLabelClass}>
         <span>Password</span>
         <input
-          className="w-full rounded-md border border-slate-300 px-3 py-2"
+          className={authInputClass}
           type="password"
           required
           minLength={8}
+          autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
       </label>
-      {error ? <p className="text-sm text-red-600">{error}</p> : null}
-      <button
-        type="submit"
-        disabled={pending}
-        className="w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
-      >
+      {error ? <p className={authErrorClass}>{error}</p> : null}
+      <button type="submit" disabled={pending} className={authPrimaryButtonClass}>
         {pending ? "Signing in…" : "Sign in"}
       </button>
-      <p className="text-sm text-slate-600">
-        No account? <Link href="/signup">Sign up</Link> ·{" "}
-        <Link href="/forgot-password">Forgot password</Link>
+      <p className={authMutedClass}>
+        No account?{" "}
+        <Link href="/signup" className={authLinkClass}>
+          Sign up
+        </Link>{" "}
+        ·{" "}
+        <Link href="/forgot-password" className={authLinkClass}>
+          Forgot password
+        </Link>
       </p>
     </form>
   );
@@ -88,7 +109,16 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<p className="text-sm text-slate-500">Loading…</p>}>
+    <Suspense
+      fallback={
+        <div className={authCardClass}>
+          <Skeleton className="h-8 w-32" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+        </div>
+      }
+    >
       <LoginForm />
     </Suspense>
   );

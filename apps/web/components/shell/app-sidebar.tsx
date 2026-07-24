@@ -27,6 +27,7 @@ type AppSidebarProps = {
   collapsed: boolean;
   onToggle: () => void;
   userName: string;
+  userImage?: string | null;
   variant?: "auth" | "demo";
   onOpenAi?: () => void;
   onOpenVoice?: () => void;
@@ -37,6 +38,7 @@ export function AppSidebar({
   collapsed,
   onToggle,
   userName,
+  userImage,
   variant = "auth",
   onOpenAi,
   onOpenVoice,
@@ -215,7 +217,7 @@ export function AppSidebar({
             <ChevronDown className="h-3 w-3 text-muted-foreground" aria-hidden />
           </button>
           <div className="flex w-full items-center gap-2 rounded-xl px-2.5 py-2">
-            <UserAvatar name={userName} size="xs" />
+            <UserAvatar name={userName} image={userImage} size="xs" />
             <div className="min-w-0 flex-1 text-left">
               <p className="truncate text-xs font-medium text-foreground">
                 {isDemo ? "Guest" : `${userName.split(" ")[0]}.`}

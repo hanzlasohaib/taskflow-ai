@@ -32,11 +32,12 @@ export function useShellActions(): ShellActions {
 
 type AppShellProps = {
   userName: string;
+  userImage?: string | null;
   variant?: "auth" | "demo";
   children: React.ReactNode;
 };
 
-export function AppShell({ userName, variant = "auth", children }: AppShellProps) {
+export function AppShell({ userName, userImage, variant = "auth", children }: AppShellProps) {
   const isDemo = variant === "demo";
   const [collapsed, setCollapsed] = useState(false);
   const [aiOpen, setAiOpen] = useState(false);
@@ -68,6 +69,7 @@ export function AppShell({ userName, variant = "auth", children }: AppShellProps
           collapsed={collapsed}
           onToggle={() => setCollapsed((v) => !v)}
           userName={userName}
+          userImage={userImage}
           variant={variant}
           onOpenAi={openAi}
           onOpenVoice={openVoice}
@@ -75,7 +77,12 @@ export function AppShell({ userName, variant = "auth", children }: AppShellProps
         />
         <div className="flex min-w-0 flex-1 flex-col">
           {isDemo ? <GuestModeBanner /> : null}
-          <AppTopNav userName={userName} variant={variant} onRequireAccount={requireAccount} />
+          <AppTopNav
+            userName={userName}
+            userImage={userImage}
+            variant={variant}
+            onRequireAccount={requireAccount}
+          />
           <div className="min-h-0 flex-1 overflow-y-auto">{children}</div>
         </div>
         <AiAssistantPanel

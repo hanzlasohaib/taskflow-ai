@@ -197,7 +197,7 @@ Prefer finishing dashboard shell (Phase 3) before heavy task UI polish; backend 
   - Acceptance: Unauthenticated users cannot open `/dashboard`; unverified users gated per PLAN.
 - [x] **T-2.11** — Implement logout and session display (e.g. header user menu stub)
   - Acceptance: Logout clears session and returns to public/auth route.
-- [ ] **T-2.12** — **[UI · requires D.05]** Apply Figma theme tokens to auth layouts (shared with dashboard)
+- [x] **T-2.12** — **[UI · requires D.05]** Apply Figma theme tokens to auth layouts (shared with dashboard)
   - Acceptance: Auth screens use same CSS variables/fonts as extracted in D.02–D.03; match frozen Figma theme.
 
 ### Phase exit criteria
@@ -206,7 +206,7 @@ Prefer finishing dashboard shell (Phase 3) before heavy task UI polish; backend 
   - Blocked on your Supabase + Resend env until credentials are provided.
 - [x] reCAPTCHA enforced on public auth endpoints
   - When `RECAPTCHA_SECRET_KEY` is configured (Better Auth captcha plugin).
-- [ ] Auth UI matches dashboard theme tokens (**after D.05** / T-2.12; backend exit may complete earlier)
+- [x] Auth UI matches dashboard theme tokens (**after D.05** / T-2.12; backend exit may complete earlier)
 
 ---
 
@@ -246,7 +246,7 @@ Prefer finishing dashboard shell (Phase 3) before heavy task UI polish; backend 
 - [x] Dashboard matches Figma composition for the main shell/stats
 - [x] Theme toggle works
 - [x] Profile + Settings routes complete for v1 shell
-- [ ] Auth + dashboard share one visual system
+- [x] Auth + dashboard share one visual system
 - [x] Public demo workspace at `/` (local only; no auto-import after login)
 ---
 
@@ -272,9 +272,9 @@ Prefer finishing dashboard shell (Phase 3) before heavy task UI polish; backend 
   - Acceptance: Counts match DB for current user (total, by status, overdue, etc. per PLAN).
 - [x] **T-4.06** — Add Server Actions for web form mutations where appropriate
   - Acceptance: Creating/updating from web UI works without exposing Prisma to client.
-- [ ] **T-4.07** — **[UI · requires D.05]** Build `/tasks` list UI (search, status/priority filters, sort) themed from Figma
+- [x] **T-4.07** — **[UI · requires D.05]** Build `/tasks` list UI (search, status/priority filters, sort) themed from Figma
   - Acceptance: Filters change results; search `q` matches titles; empty state shown.
-- [ ] **T-4.08** — **[UI · requires D.05]** Build task create/edit form + `/tasks/[id]` detail (minimal unstyled form OK earlier for API testing only)
+- [x] **T-4.08** — **[UI · requires D.05]** Build task create/edit form + `/tasks/[id]` detail (minimal unstyled form OK earlier for API testing only)
   - Acceptance: Full CRUD from UI; validation errors display on fields; final UI matches Figma.
 - [x] **T-4.09** — **[UI · requires D.05]** Wire dashboard stats cards + recent tasks to real API data
   - Acceptance: Creating a task updates dashboard stats after refresh/navigation.
@@ -631,17 +631,17 @@ Use PLAN §25 as the master list. Check when configured in local + Vercel:
 
 | Phase | Name | Status |
 | --- | --- | --- |
-| Gate | Figma Design Gate (UI only) | Blocks UI until D.05; backend unblocked |
+| Gate | Figma Design Gate (UI only) | Cleared (D.05) |
 | 1 | Project Setup | Done |
-| 2 | Authentication | Backend done (needs your Supabase/Resend env); UI polish waits for D.05 |
-| 3 | Dashboard | Done (shell + stats wired to Phase 4 APIs); auth theme polish still T-2.12 |
-| 4 | Task CRUD | Backend done (T-4.01–06, 10–11); UI polish waits for D.05 / T-4.07–09 |
-| 5 | Realtime | Ready after Phase 4 backend (no Figma required) |
-| 6 | Voice (Deepgram) | API ready after Phase 4; UI chrome waits for D.05 |
-| 7 | HTML Canvas | API/canvas logic ready after Phase 4; polish waits for D.05 |
-| 8 | Chrome Extension | API client ready after Phase 4; theming waits for D.05 |
-| 9 | Mobile (Expo) | Logic ready after APIs; theming waits for D.05 |
-| 10 | Desktop (Tauri) | Shell ready after web; inherits web UI post-D.05 |
+| 2 | Authentication | Done (env credentials still needed for email E2E) |
+| 3 | Dashboard | Done |
+| 4 | Task CRUD | Done |
+| 5 | Realtime | Not started |
+| 6 | Voice (Deepgram) | Not started |
+| 7 | HTML Canvas | Not started |
+| 8 | Chrome Extension | Not started |
+| 9 | Mobile (Expo) | Not started |
+| 10 | Desktop (Tauri) | Not started |
 | 11 | Deployment | Not started |
 | 12 | Testing | Not started |
 | 13 | Final Submission | Not started |

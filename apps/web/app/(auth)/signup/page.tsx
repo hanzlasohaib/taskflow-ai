@@ -4,6 +4,17 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 
+import {
+  authCardClass,
+  authErrorClass,
+  authInputClass,
+  authLabelClass,
+  authLinkClass,
+  authMutedClass,
+  authPrimaryButtonClass,
+  authTitleClass,
+  authWarningClass,
+} from "@/components/auth/auth-styles";
 import { authClient } from "@/lib/auth-client";
 import { captchaHeaders, getRecaptchaToken, isRecaptchaEnabled } from "@/lib/recaptcha";
 
@@ -53,62 +64,70 @@ export default function SignupPage() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4 rounded-lg border border-slate-200 bg-white p-6">
-      <h1 className="text-2xl font-semibold text-slate-900">Sign up</h1>
+    <form onSubmit={onSubmit} className={authCardClass}>
+      <div className="space-y-1">
+        <h1 className={authTitleClass} style={{ fontFamily: "var(--font-display)" }}>
+          Sign up
+        </h1>
+        <p className={authMutedClass}>Create your TaskFlow workspace.</p>
+      </div>
       {isRecaptchaEnabled ? null : (
-        <p className="text-xs text-amber-700">reCAPTCHA disabled — set NEXT_PUBLIC_RECAPTCHA_SITE_KEY.</p>
+        <p className={authWarningClass}>reCAPTCHA disabled — set NEXT_PUBLIC_RECAPTCHA_SITE_KEY.</p>
       )}
-      <label className="block space-y-1 text-sm">
+      <label className={authLabelClass}>
         <span>Name</span>
         <input
-          className="w-full rounded-md border border-slate-300 px-3 py-2"
+          className={authInputClass}
           required
+          autoComplete="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
       </label>
-      <label className="block space-y-1 text-sm">
+      <label className={authLabelClass}>
         <span>Email</span>
         <input
-          className="w-full rounded-md border border-slate-300 px-3 py-2"
+          className={authInputClass}
           type="email"
           required
+          autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
       </label>
-      <label className="block space-y-1 text-sm">
+      <label className={authLabelClass}>
         <span>Password</span>
         <input
-          className="w-full rounded-md border border-slate-300 px-3 py-2"
+          className={authInputClass}
           type="password"
           required
           minLength={8}
+          autoComplete="new-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
       </label>
-      <label className="block space-y-1 text-sm">
+      <label className={authLabelClass}>
         <span>Confirm password</span>
         <input
-          className="w-full rounded-md border border-slate-300 px-3 py-2"
+          className={authInputClass}
           type="password"
           required
           minLength={8}
+          autoComplete="new-password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
       </label>
-      {error ? <p className="text-sm text-red-600">{error}</p> : null}
-      <button
-        type="submit"
-        disabled={pending}
-        className="w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
-      >
+      {error ? <p className={authErrorClass}>{error}</p> : null}
+      <button type="submit" disabled={pending} className={authPrimaryButtonClass}>
         {pending ? "Creating account…" : "Create account"}
       </button>
-      <p className="text-sm text-slate-600">
-        Already have an account? <Link href="/login">Log in</Link>
+      <p className={authMutedClass}>
+        Already have an account?{" "}
+        <Link href="/login" className={authLinkClass}>
+          Log in
+        </Link>
       </p>
     </form>
   );

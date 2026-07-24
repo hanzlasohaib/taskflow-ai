@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 
 import "./globals.css";
 
+import { AgentationProvider } from "@/components/providers/agentation-provider";
+
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -34,6 +36,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${plusJakarta.variable} ${jetbrains.variable} antialiased`}>
         <ThemeProvider>{children}</ThemeProvider>
+        <AgentationProvider />
       </body>
     </html>
   );

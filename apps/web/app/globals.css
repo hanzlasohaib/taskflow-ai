@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Workspace utils hold priority/status class strings — must be scanned or they never emit CSS */
+@source "../../../packages/utils/src/**/*.{ts,tsx}";
+@source inline("bg-red-500 bg-orange-500 bg-blue-500 bg-slate-400 bg-red-500/10 bg-orange-500/10 bg-blue-500/10 bg-slate-400/10 text-red-500 text-orange-500 text-blue-500 text-slate-400 border-red-500/20 border-orange-500/20 border-blue-500/20 border-slate-400/20");
+
 @custom-variant dark (&:is(.dark *));
 
 /* Figma Make theme — TaskFlow-AI (frozen) */
@@ -98,6 +102,7 @@
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
+  --color-input-background: var(--input-background);
   --color-ring: var(--ring);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);

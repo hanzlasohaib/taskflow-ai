@@ -83,7 +83,15 @@ pnpm --filter @taskflow/web db:migrate
 
 ## Design / UI note
 
-**UI theming** (tokens, dashboard layout, styled auth) waits until the Figma dashboard design is frozen (Design Gate **D.05** in `docs/TASKS.md`). Auth forms are functional placeholders until then.
+Auth, dashboard, and tasks share the frozen Figma Make theme tokens (`apps/web/app/globals.css`). Guest mode at `/` uses the same shell with a Guest Mode badge and soft-gates for account-only features.
+
+## Avatars (Supabase Storage)
+
+1. Create a **private** Storage bucket named `avatars` (or set `AVATARS_BUCKET`).
+2. Set a **1 MB** file size limit on the bucket (matches app validation).
+3. Set `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` in `.env.local`.
+4. Profile → Edit Photo uploads a cropped 256×256 WEBP to `{userId}/avatar.webp` (upsert).
+5. `User.image` stores only the **object path** (`{userId}/avatar.webp`). At read time the server mints a short-lived signed URL for the browser — never persist signed or public URLs.
 
 ## License
 

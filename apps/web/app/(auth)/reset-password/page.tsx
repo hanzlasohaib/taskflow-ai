@@ -4,6 +4,17 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState, type FormEvent } from "react";
 
+import {
+  authCardClass,
+  authErrorClass,
+  authInputClass,
+  authLabelClass,
+  authLinkClass,
+  authMutedClass,
+  authPrimaryButtonClass,
+  authTitleClass,
+} from "@/components/auth/auth-styles";
+import { Skeleton } from "@/components/ui/skeleton";
 import { authClient } from "@/lib/auth-client";
 
 function ResetPasswordForm() {
@@ -55,40 +66,45 @@ function ResetPasswordForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4 rounded-lg border border-slate-200 bg-white p-6">
-      <h1 className="text-2xl font-semibold text-slate-900">Reset password</h1>
-      <label className="block space-y-1 text-sm">
+    <form onSubmit={onSubmit} className={authCardClass}>
+      <div className="space-y-1">
+        <h1 className={authTitleClass} style={{ fontFamily: "var(--font-display)" }}>
+          Reset password
+        </h1>
+        <p className={authMutedClass}>Choose a new password for your account.</p>
+      </div>
+      <label className={authLabelClass}>
         <span>New password</span>
         <input
-          className="w-full rounded-md border border-slate-300 px-3 py-2"
+          className={authInputClass}
           type="password"
           required
           minLength={8}
+          autoComplete="new-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
       </label>
-      <label className="block space-y-1 text-sm">
+      <label className={authLabelClass}>
         <span>Confirm password</span>
         <input
-          className="w-full rounded-md border border-slate-300 px-3 py-2"
+          className={authInputClass}
           type="password"
           required
           minLength={8}
+          autoComplete="new-password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
       </label>
-      {error ? <p className="text-sm text-red-600">{error}</p> : null}
-      <button
-        type="submit"
-        disabled={pending || !token}
-        className="w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
-      >
+      {error ? <p className={authErrorClass}>{error}</p> : null}
+      <button type="submit" disabled={pending || !token} className={authPrimaryButtonClass}>
         {pending ? "Saving…" : "Update password"}
       </button>
-      <p className="text-sm text-slate-600">
-        <Link href="/login">Back to login</Link>
+      <p className={authMutedClass}>
+        <Link href="/login" className={authLinkClass}>
+          Back to login
+        </Link>
       </p>
     </form>
   );
@@ -96,7 +112,16 @@ function ResetPasswordForm() {
 
 export default function ResetPasswordPage() {
   return (
-    <Suspense fallback={<p className="text-sm text-slate-500">Loading…</p>}>
+    <Suspense
+      fallback={
+        <div className={authCardClass}>
+          <Skeleton className="h-8 w-40" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+        </div>
+      }
+    >
       <ResetPasswordForm />
     </Suspense>
   );

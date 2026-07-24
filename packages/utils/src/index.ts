@@ -75,19 +75,57 @@ export const TASK_PRIORITY_LABELS: Record<TaskPriority, string> = {
   URGENT: "Urgent",
 };
 
-/** Shared priority color tokens — keep identical across all surfaces. */
-export const PRIORITY_DOT_CLASS: Record<TaskPriority, string> = {
-  URGENT: "bg-red-500",
-  HIGH: "bg-orange-500",
-  MEDIUM: "bg-blue-500",
-  LOW: "bg-slate-400",
+/**
+ * Single source of truth for priority colors across TaskRow, badges, dots,
+ * dashboard lists, deadlines, details, /tasks, board, and future cards.
+ * Solid fills: Urgent red-500 · High orange-500 · Medium blue-500 · Low slate-400
+ */
+const PRIORITY_TONES: Record<
+  TaskPriority,
+  { color: string; badge: string }
+> = {
+  URGENT: {
+    color: "bg-red-500",
+    badge: "bg-red-500/10 text-red-500 border-red-500/20 dark:text-red-400",
+  },
+  HIGH: {
+    color: "bg-orange-500",
+    badge: "bg-orange-500/10 text-orange-500 border-orange-500/20 dark:text-orange-400",
+  },
+  MEDIUM: {
+    color: "bg-blue-500",
+    badge: "bg-blue-500/10 text-blue-500 border-blue-500/20 dark:text-blue-400",
+  },
+  LOW: {
+    color: "bg-slate-400",
+    badge: "bg-slate-400/10 text-slate-400 border-slate-400/20 dark:text-slate-400",
+  },
 };
 
+/** Solid priority fill (`bg-*`) — use for dots, markers, and any hard priority color. */
+export function getPriorityColorClass(priority: TaskPriority): string {
+  return PRIORITY_TONES[priority].color;
+}
+
+/** Soft badge chrome derived from the same priority tones. */
+export function getPriorityBadgeClass(priority: TaskPriority): string {
+  return PRIORITY_TONES[priority].badge;
+}
+
+/** @deprecated Prefer getPriorityColorClass — kept as a Record for map-style access. */
+export const PRIORITY_DOT_CLASS: Record<TaskPriority, string> = {
+  URGENT: PRIORITY_TONES.URGENT.color,
+  HIGH: PRIORITY_TONES.HIGH.color,
+  MEDIUM: PRIORITY_TONES.MEDIUM.color,
+  LOW: PRIORITY_TONES.LOW.color,
+};
+
+/** @deprecated Prefer getPriorityBadgeClass — kept as a Record for map-style access. */
 export const PRIORITY_BADGE_CLASS: Record<TaskPriority, string> = {
-  URGENT: "bg-red-500/10 text-red-500 border-red-500/20 dark:text-red-400",
-  HIGH: "bg-orange-500/10 text-orange-600 border-orange-500/20 dark:text-orange-400",
-  MEDIUM: "bg-blue-500/10 text-blue-600 border-blue-500/20 dark:text-blue-400",
-  LOW: "bg-slate-500/10 text-slate-500 border-slate-500/20 dark:text-slate-400",
+  URGENT: PRIORITY_TONES.URGENT.badge,
+  HIGH: PRIORITY_TONES.HIGH.badge,
+  MEDIUM: PRIORITY_TONES.MEDIUM.badge,
+  LOW: PRIORITY_TONES.LOW.badge,
 };
 
 export const DISPLAY_STATUS_BADGE_CLASS: Record<DisplayStatus, string> = {
