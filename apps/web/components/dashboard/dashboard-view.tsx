@@ -28,7 +28,6 @@ import {
   Hash,
   Mic,
   Pencil,
-  Play,
   Plus,
   RefreshCw,
   Sparkles,
@@ -37,6 +36,7 @@ import {
   X,
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMemo, useState, type ElementType } from "react";
 import { Area, AreaChart, ResponsiveContainer } from "recharts";
 
@@ -109,6 +109,7 @@ export function DashboardView({
   onDeleteTask,
 }: DashboardViewProps) {
   const isDemo = mode === "demo";
+  const router = useRouter();
   const { openAi, openVoice, requireAccount } = useShellActions();
   const [filter, setFilter] = useState<FilterType>("all");
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -117,7 +118,25 @@ export function DashboardView({
   const [draftTitle, setDraftTitle] = useState("");
   const [draftStatus, setDraftStatus] = useState<TaskStatus>("TODO");
   const [draftPriority, setDraftPriority] = useState<TaskPriority>("MEDIUM");
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const firstName = userName.split(" ")[0] ?? userName;
+
+  async function handleDeleteSelected(id: string) {
+    if (isDemo) {
+      onDeleteTask?.(id);
+      setSelectedId(null);
+      return;
+    }
+    setDeletingId(id);
+    try {
+      const res = await fetch(`/api/tasks/${id}`, { method: "DELETE" });
+      if (!res.ok) return;
+      setSelectedId(null);
+      router.refresh();
+    } finally {
+      setDeletingId(null);
+    }
+  }
 
   const activeTasks = useMemo(() => tasks.filter((t) => isActiveTask(t.status)), [tasks]);
 
@@ -402,22 +421,22 @@ export function DashboardView({
               <h2 id="voice-notes-heading" className="text-base font-semibold text-foreground">
                 Voice Notes
               </h2>
-              <span className="text-[11px] text-muted-foreground">Coming with Deepgram</span>
+              <span className="text-[11px] text-muted-foreground">Deepgram STT</span>
             </div>
             <div className="rounded-2xl border border-dashed border-border bg-foreground/[0.02] p-6 text-center">
               <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10">
                 <FileAudio className="h-4 w-4 text-primary" aria-hidden />
               </div>
-              <p className="text-sm font-medium text-foreground">No voice notes yet.</p>
+              <p className="text-sm font-medium text-foreground">Capture a voice task</p>
               <p className="mt-1 text-xs text-muted-foreground">
-                Voice notes will appear here after Phase 6. Use Voice Task to preview the recording UI.
+                Record up to 60 seconds, review the transcript, and save it as a task.
               </p>
               <button
                 type="button"
-                disabled
-                className="mt-3 inline-flex h-8 items-center gap-1.5 rounded-lg px-2 text-[10px] text-muted-foreground"
+                onClick={openVoice}
+                className="mt-3 inline-flex h-8 items-center gap-1.5 rounded-lg bg-primary/10 px-3 text-[11px] font-medium text-primary transition-colors hover:bg-primary/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
-                <Play className="h-3 w-3" aria-hidden /> Play · Convert to Task
+                <Mic className="h-3 w-3" aria-hidden /> Voice Task
               </button>
             </div>
           </section>
@@ -521,12 +540,25 @@ export function DashboardView({
                       </button>
                     </>
                   ) : (
-                    <Link
-                      href={`/tasks/${selected.id}`}
-                      className="rounded-xl bg-primary px-3 py-2 text-[11px] font-semibold text-primary-foreground transition-all hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    >
-                      Open full editor
-                    </Link>
+                    <>
+                      <Link
+                        href={`/tasks/${selected.id}`}
+                        className="rounded-xl bg-primary px-3 py-2 text-[11px] font-semibold text-primary-foreground transition-all hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      >
+                        Open full editor
+                      </Link>
+                      <button
+                        type="button"
+                        disabled={deletingId === selected.id}
+                        onClick={() => {
+                          void handleDeleteSelected(selected.id);
+                        }}
+                        className="inline-flex items-center gap-1 rounded-xl border border-destructive/30 px-3 py-2 text-[11px] font-medium text-destructive transition-all hover:bg-destructive/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50"
+                      >
+                        <Trash2 className="h-3 w-3" aria-hidden />
+                        {deletingId === selected.id ? "Deleting…" : "Delete"}
+                      </button>
+                    </>
                   )}
                   <button
                     type="button"
@@ -682,12 +714,12 @@ export function DashboardView({
                 <div className="rounded-2xl border border-border bg-card p-4">
                   <div className="mb-3 flex items-center justify-between">
                     <span className="text-sm font-semibold text-foreground">Notifications</span>
-                    <span className="rounded-full bg-primary/10 px-1.5 py-0.5 text-[10px] font-medium text-primary">
-                      Live soon
+                    <span className="rounded-full bg-foreground/8 px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
+                      Empty
                     </span>
                   </div>
                   <p className="text-[11px] leading-relaxed text-muted-foreground">
-                    Realtime notifications arrive in Phase 5. Deadline and mention alerts will show here.
+                    Task lists already sync live across tabs. Deadline and mention alerts will appear here when that inbox ships.
                   </p>
                 </div>
               </motion.div>

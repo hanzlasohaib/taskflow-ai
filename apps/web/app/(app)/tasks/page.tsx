@@ -7,6 +7,7 @@ import type { TaskPriority, TaskStatus } from "@taskflow/types";
 import { createTaskAction } from "@/app/(app)/tasks/actions";
 import { PriorityBadge } from "@/components/tasks/priority-badge";
 import { StatusBadge } from "@/components/tasks/status-badge";
+import { VoiceTaskButton } from "@/components/tasks/voice-task-button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { requireSession } from "@/lib/session";
 import { listTasks } from "@/lib/tasks";
@@ -45,11 +46,14 @@ export default async function TasksPage({ searchParams }: { searchParams: Search
 
   return (
     <main className="mx-auto flex max-w-4xl flex-col gap-6 px-4 py-8 md:px-6 md:py-10">
-      <div>
-        <h1 className="text-2xl font-bold text-foreground md:text-3xl" style={{ fontFamily: "var(--font-display)" }}>
-          Tasks
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">Create, search, and manage your work.</p>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-bold text-foreground md:text-3xl" style={{ fontFamily: "var(--font-display)" }}>
+            Tasks
+          </h1>
+          <p className="mt-1 text-sm text-muted-foreground">Create, search, and manage your work.</p>
+        </div>
+        <VoiceTaskButton />
       </div>
 
       <section className="rounded-2xl border border-border bg-card p-5 shadow-sm">

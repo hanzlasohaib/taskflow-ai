@@ -133,6 +133,27 @@ Prisma writes use the DB URL (bypasses RLS). Realtime clients use a short-lived 
 1. **Same user, two browsers** — sign in as the same account in two windows; create/edit/delete a task in A; B should update without a manual refresh.
 2. **Two users** — sign in as user B in another browser; B must not see user A’s tasks via list UI or realtime (RLS + `userId` filter).
 
+## Voice tasks (Phase 6)
+
+Speech-to-task uses Deepgram via a server proxy. The API key never ships to the browser.
+
+### 1. Env
+
+In `apps/web/.env.local`:
+
+| Variable | Notes |
+| --- | --- |
+| `DEEPGRAM_API_KEY` | Deepgram console → API key (**server-only**) |
+
+### 2. Happy path
+
+1. Sign in, allow microphone access when prompted.
+2. Open **Voice Task** from the dashboard, sidebar, or Tasks page.
+3. Record up to **60 seconds**, stop, wait for transcription.
+4. Edit the suggested title/description, then **Save task** (or Discard).
+
+Limits: authenticated only; max **5 MB** audio; **10** transcribe requests per user per minute. Production logs record `userId` / size / status only — never raw audio or full transcripts.
+
 ## License
 
 Private / internship project unless otherwise stated.

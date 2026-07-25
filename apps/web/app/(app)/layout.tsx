@@ -5,6 +5,9 @@ import { AppShell } from "@/components/shell/app-shell";
 import { getSession } from "@/lib/session";
 import { resolveAvatarUrl } from "@/lib/supabase-admin";
 
+/** Auth cookie / headers — never statically prerender this segment. */
+export const dynamic = "force-dynamic";
+
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession();
   if (!session?.user) {

@@ -41,7 +41,7 @@ Complete before or during early phases (not all required on day one).
   - Acceptance: Can send a test email successfully.
 - [ ] **G.04** — Google reCAPTCHA v3 site key + secret key
   - Acceptance: Keys created for local + production domains (or localhost for dev).
-- [ ] **G.05** — Deepgram account + API key
+- [x] **G.05** — Deepgram account + API key
   - Acceptance: Key can call STT from a curl/test request.
 - [ ] **G.06** — Vercel account linked to GitHub
   - Acceptance: Able to import a project when ready to deploy.
@@ -334,23 +334,23 @@ Prefer finishing dashboard shell (Phase 3) before heavy task UI polish; backend 
 
 ### Tasks
 
-- [ ] **T-6.01** — Implement `POST /api/voice/transcribe` (auth required; multipart audio)
+- [x] **T-6.01** — Implement `POST /api/voice/transcribe` (auth required; multipart audio)
   - Acceptance: Returns `{ transcript, suggestedTitle, suggestedDescription? }`; rejects unauthenticated.
-- [ ] **T-6.02** — Keep `DEEPGRAM_API_KEY` server-only; validate MIME + max size (≤ 60s policy)
+- [x] **T-6.02** — Keep `DEEPGRAM_API_KEY` server-only; validate MIME + max size (≤ 60s policy)
   - Acceptance: Oversized/invalid uploads return 4xx; key absent from client bundle.
-- [ ] **T-6.03** — Add per-user rate limiting on voice endpoint
+- [x] **T-6.03** — Add per-user rate limiting on voice endpoint
   - Acceptance: Excessive requests return 429.
-- [ ] **T-6.04** — **[UI · requires D.05]** Build `VoiceRecorderButton` + transcript review dialog (Figma-styled); functional unstyled control OK earlier for API testing
+- [x] **T-6.04** — **[UI · requires D.05]** Build `VoiceRecorderButton` + transcript review dialog (Figma-styled); functional unstyled control OK earlier for API testing
   - Acceptance: User can record, review/edit suggestion, save as task or discard; final chrome matches Figma.
-- [ ] **T-6.05** — Place voice entry points on dashboard/tasks (and prepare mobile later)
+- [x] **T-6.05** — Place voice entry points on dashboard/tasks (and prepare mobile later)
   - Acceptance: Happy path demo works on web end-to-end.
-- [ ] **T-6.06** — Ensure production logs do not store raw audio or full transcripts
+- [x] **T-6.06** — Ensure production logs do not store raw audio or full transcripts
   - Acceptance: Log policy/code review confirms redaction.
 
 ### Phase exit criteria
 
-- [ ] Spoken sentence → editable draft → saved task on web
-- [ ] Abuse controls (auth, size, rate limit) in place
+- [x] Spoken sentence → editable draft → saved task on web
+- [x] Abuse controls (auth, size, rate limit) in place
 
 ---
 
@@ -579,7 +579,7 @@ Prefer finishing dashboard shell (Phase 3) before heavy task UI polish; backend 
 - [ ] Dashboard stats cards
 - [ ] Task CRUD + search/filter
 - [ ] Supabase Realtime (two windows)
-- [ ] Deepgram voice task creation
+- [x] Deepgram voice task creation
 - [ ] HTML Canvas sketch on a task
 - [ ] Chrome extension quick-add
 - [ ] Expo mobile screens
@@ -605,7 +605,7 @@ Use PLAN §25 as the master list. Check when configured in local + Vercel:
 - [ ] `BETTER_AUTH_SECRET` / `BETTER_AUTH_URL`
 - [ ] `RESEND_API_KEY` / `EMAIL_FROM`
 - [ ] `RECAPTCHA_SECRET_KEY` / `NEXT_PUBLIC_RECAPTCHA_SITE_KEY`
-- [ ] `DEEPGRAM_API_KEY`
+- [x] `DEEPGRAM_API_KEY`
 - [ ] `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` / `SUPABASE_JWT_SECRET` / `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - [ ] `NEXT_PUBLIC_APP_URL`
 - [ ] Storage bucket name / sketch storage config
@@ -637,7 +637,7 @@ Use PLAN §25 as the master list. Check when configured in local + Vercel:
 | 3 | Dashboard | Done |
 | 4 | Task CRUD | Done |
 | 5 | Realtime | Done |
-| 6 | Voice (Deepgram) | Not started |
+| 6 | Voice (Deepgram) | Done |
 | 7 | HTML Canvas | Not started |
 | 8 | Chrome Extension | Not started |
 | 9 | Mobile (Expo) | Not started |
