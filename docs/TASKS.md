@@ -364,25 +364,25 @@ Prefer finishing dashboard shell (Phase 3) before heavy task UI polish; backend 
 
 ### Tasks
 
-- [ ] **T-7.01** — Add Prisma `Sketch` model (1:1 with task) + migrate
+- [x] **T-7.01** — Add Prisma `Sketch` model (1:1 with task) + migrate
   - Acceptance: Unique `taskId`; cascade delete with task.
-- [ ] **T-7.02** — Create Supabase Storage bucket for sketch PNGs (if using images)
+- [x] **T-7.02** — Create Supabase Storage bucket for sketch PNGs (if using images)
   - Acceptance: Authenticated upload path works server-side; bucket private/public policy documented.
-- [ ] **T-7.03** — Implement sketches API (`GET` by taskId, `POST` upsert, `PATCH`, `DELETE`)
+- [x] **T-7.03** — Implement sketches API (`GET` by taskId, `POST` upsert, `PATCH`, `DELETE`)
   - Acceptance: Owner-only access; dataJson round-trips.
-- [ ] **T-7.04** — Build `TaskCanvas` + toolbar (color, width, undo, clear); **toolbar chrome polish requires D.05**
+- [x] **T-7.04** — Build `TaskCanvas` + toolbar (color, width, undo, clear); **toolbar chrome polish requires D.05**
   - Acceptance: Drawing works with pointer; tools behave as labeled.
-- [ ] **T-7.05** — Save/load strokes on `/tasks/[id]`; show thumbnail (**thumbnail styling requires D.05**)
+- [x] **T-7.05** — Save/load strokes on `/tasks/[id]`; show thumbnail (**thumbnail styling requires D.05**)
   - Acceptance: Reload page restores sketch; thumbnail visible on detail.
-- [ ] **T-7.06** — Cap stroke/payload size to avoid huge `dataJson`
+- [x] **T-7.06** — Cap stroke/payload size to avoid huge `dataJson`
   - Acceptance: Over-cap save fails gracefully with user message.
-- [ ] **T-7.07** — Mobile: read-only preview or “edit on web” note (per PLAN)
-  - Acceptance: Mobile does not require full editor in v1.
+- [x] **T-7.07** — Mobile: read-only preview or “edit on web” note (per PLAN)
+  - Acceptance: Mobile does not require full editor in v1. Documented for Phase 9 (no Expo app yet).
 
 ### Phase exit criteria
 
-- [ ] Draw → save → reload works on web
-- [ ] Sketch owned and authorized like tasks
+- [x] Draw → save → reload works on web
+- [x] Sketch owned and authorized like tasks
 
 ---
 
@@ -580,7 +580,7 @@ Prefer finishing dashboard shell (Phase 3) before heavy task UI polish; backend 
 - [ ] Task CRUD + search/filter
 - [ ] Supabase Realtime (two windows)
 - [x] Deepgram voice task creation
-- [ ] HTML Canvas sketch on a task
+- [x] HTML Canvas sketch on a task
 - [ ] Chrome extension quick-add
 - [ ] Expo mobile screens
 - [ ] Tauri desktop window
@@ -608,7 +608,7 @@ Use PLAN §25 as the master list. Check when configured in local + Vercel:
 - [x] `DEEPGRAM_API_KEY`
 - [ ] `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` / `SUPABASE_JWT_SECRET` / `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - [ ] `NEXT_PUBLIC_APP_URL`
-- [ ] Storage bucket name / sketch storage config
+- [x] Storage bucket name / sketch storage config
 - [ ] `EXPO_PUBLIC_API_URL` (+ Supabase public vars for mobile)
 - [ ] Extension API URL
 - [ ] `TAURI_WEB_URL`
@@ -638,7 +638,7 @@ Use PLAN §25 as the master list. Check when configured in local + Vercel:
 | 4 | Task CRUD | Done |
 | 5 | Realtime | Done |
 | 6 | Voice (Deepgram) | Done |
-| 7 | HTML Canvas | Not started |
+| 7 | HTML Canvas | Done |
 | 8 | Chrome Extension | Not started |
 | 9 | Mobile (Expo) | Not started |
 | 10 | Desktop (Tauri) | Not started |

@@ -154,6 +154,35 @@ In `apps/web/.env.local`:
 
 Limits: authenticated only; max **5 MB** audio; **10** transcribe requests per user per minute. Production logs record `userId` / size / status only — never raw audio or full transcripts.
 
+## Task sketches (Phase 7)
+
+Each task can have one freehand sketch pad on `/tasks/[id]`. Strokes live in Postgres (`dataJson`); an optional PNG snapshot goes to Supabase Storage for thumbnails / future mobile preview.
+
+### 1. Migrate
+
+```bash
+pnpm --filter @taskflow/web db:deploy
+```
+
+This creates the `sketch` table (1:1 with `task`), enables RLS for Realtime, and publishes `"sketch"` to `supabase_realtime`.
+
+### 2. Storage (optional PNG)
+
+1. Create a **private** Storage bucket named `sketches` (or set `BLOB_OR_STORAGE_BUCKET`).
+2. Set a **1 MB** file size limit on the bucket.
+3. Ensure `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` are set (same as avatars).
+
+Without the bucket, stroke save/load still works; PNG upload is skipped with a storage/config error only when a file is sent and storage is misconfigured. The client still generates a PNG on save when possible.
+
+### 3. Happy path
+
+1. Open a task detail page.
+2. Draw on the Sketch canvas (color, width, undo, clear).
+3. **Save sketch**, then hard-reload — strokes restore.
+4. Caps: ≤ 256 KB JSON, 500 strokes, 20k points total.
+
+**Mobile (Phase 9):** full canvas edit stays on web; mobile should show a read-only preview (or “edit on web”) when that app lands.
+
 ## License
 
 Private / internship project unless otherwise stated.

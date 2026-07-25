@@ -253,14 +253,23 @@ export function DashboardView({
           >
             <Mic className="h-4 w-4 shrink-0 text-primary" aria-hidden /> Voice Task
           </button>
-          <button
-            type="button"
-            disabled
-            title="Canvas arrives in a later phase"
-            className="inline-flex h-10 items-center gap-2 rounded-xl border border-border bg-foreground/[0.04] px-4 text-sm font-medium text-foreground opacity-70 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            <Pencil className="h-4 w-4 shrink-0 text-secondary" aria-hidden /> Canvas
-          </button>
+          {isDemo ? (
+            <button
+              type="button"
+              onClick={() => requireAccount("workspace")}
+              className="inline-flex h-10 items-center gap-2 rounded-xl border border-border bg-foreground/[0.04] px-4 text-sm font-medium text-foreground transition-all hover:border-foreground/12 hover:bg-foreground/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <Pencil className="h-4 w-4 shrink-0 text-secondary" aria-hidden /> Canvas
+            </button>
+          ) : (
+            <Link
+              href={selected ? `/tasks/${selected.id}` : "/tasks"}
+              title={selected ? "Open sketch on selected task" : "Open a task to sketch"}
+              className="inline-flex h-10 items-center gap-2 rounded-xl border border-border bg-foreground/[0.04] px-4 text-sm font-medium text-foreground transition-all hover:border-foreground/12 hover:bg-foreground/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.98]"
+            >
+              <Pencil className="h-4 w-4 shrink-0 text-secondary" aria-hidden /> Canvas
+            </Link>
+          )}
           <button
             type="button"
             onClick={openAi}

@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../../../node_modules/.prisma/client"
 }
 datasource db {
   provider  = "postgresql"
@@ -33,6 +32,7 @@ model User {
   sessions      Session[]
   accounts      Account[]
   tasks         Task[]
+  sketches      Sketch[]
 
   @@unique([email])
   @@map("user")
@@ -50,11 +50,27 @@ model Task {
   completedAt DateTime?
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  sketch      Sketch?
 
   @@index([userId, status])
   @@index([userId, createdAt])
   @@index([userId, dueDate])
   @@map("task")
+}
+
+model Sketch {
+  id          String   @id @default(cuid())
+  taskId      String   @unique
+  task        Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  storagePath String?
+  dataJson    Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@map("sketch")
 }
 
 model Session {

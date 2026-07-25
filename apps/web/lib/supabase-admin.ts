@@ -24,6 +24,34 @@ export function getAvatarsBucket(): string {
   return process.env.AVATARS_BUCKET || "avatars";
 }
 
+export function getSketchesBucket(): string {
+  return process.env.BLOB_OR_STORAGE_BUCKET || "sketches";
+}
+
+/** Canonical object path stored in `Sketch.storagePath`. */
+export function sketchObjectPath(userId: string, taskId: string): string {
+  return `${userId}/${taskId}.png`;
+}
+
+export async function resolveSketchUrl(
+  value: string | null | undefined,
+): Promise<string | null> {
+  if (!value) return null;
+  const path = value.trim().replace(/^\/+/, "");
+  if (!path || /^https?:\/\//i.test(path)) return null;
+
+  try {
+    const supabase = getSupabaseAdmin();
+    const { data, error } = await supabase.storage
+      .from(getSketchesBucket())
+      .createSignedUrl(path, SIGNED_URL_TTL_SECONDS);
+    if (error || !data?.signedUrl) return null;
+    return data.signedUrl;
+  } catch {
+    return null;
+  }
+}
+
 const SIGNED_URL_TTL_SECONDS = 60 * 60 * 24; // 24h — refreshed on each server render
 
 /** Canonical object path stored in `User.image` (bucket from env). */

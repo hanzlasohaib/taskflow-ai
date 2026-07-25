@@ -42,3 +42,34 @@ export interface ApiErrorBody {
     details?: unknown;
   };
 }
+
+export interface SketchPoint {
+  x: number;
+  y: number;
+}
+
+export interface SketchStroke {
+  id: string;
+  color: string;
+  width: number;
+  points: SketchPoint[];
+}
+
+export interface SketchDocument {
+  version: 1;
+  width: number;
+  height: number;
+  strokes: SketchStroke[];
+}
+
+export interface Sketch {
+  id: string;
+  taskId: string;
+  userId: string;
+  storagePath?: string | null;
+  /** Short-lived signed URL — never persist; present when storagePath exists. */
+  imageUrl?: string | null;
+  dataJson: SketchDocument;
+  createdAt: string;
+  updatedAt: string;
+}

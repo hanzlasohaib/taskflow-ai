@@ -60,7 +60,9 @@ export function AppSidebar({
       ? []
       : [{ href: "/tasks", id: "tasks", label: "Tasks", icon: CheckSquare }]),
     { href: homeHref, id: "calendar", label: "Calendar", icon: Calendar, soon: true },
-    { href: homeHref, id: "canvas", label: "Canvas", icon: Pencil, soon: true },
+    ...(isDemo
+      ? [{ href: homeHref, id: "canvas", label: "Canvas", icon: Pencil, soon: true }]
+      : [{ href: "/tasks", id: "canvas", label: "Canvas", icon: Pencil }]),
     { href: homeHref, id: "ai", label: "AI Assistant", icon: Sparkles },
     { href: homeHref, id: "voice", label: "Voice Notes", icon: Mic },
     { href: homeHref, id: "notifications", label: "Notifications", icon: Bell, soon: true },

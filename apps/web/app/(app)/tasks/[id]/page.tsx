@@ -5,6 +5,7 @@ import { TASK_PRIORITY_LABELS, TASK_STATUS_LABELS } from "@taskflow/utils";
 import type { TaskPriority, TaskStatus } from "@taskflow/types";
 
 import { deleteTaskAction, updateTaskAction } from "@/app/(app)/tasks/actions";
+import { TaskSketchPanel } from "@/components/canvas/task-sketch-panel";
 import { PriorityBadge } from "@/components/tasks/priority-badge";
 import { StatusBadge } from "@/components/tasks/status-badge";
 import { AuthError, requireSession } from "@/lib/session";
@@ -124,6 +125,8 @@ export default async function TaskDetailPage({ params }: PageProps) {
           Save changes
         </button>
       </form>
+
+      <TaskSketchPanel taskId={task.id} />
 
       <form action={deleteWithId} className="rounded-2xl border border-border bg-card p-5 shadow-sm">
         <h2 className="mb-2 text-sm font-semibold text-foreground">Danger zone</h2>
