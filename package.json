@@ -6,6 +6,7 @@
     "dev": "turbo run dev",
     "dev:web": "turbo run dev --filter=@taskflow/web",
     "dev:extension": "turbo run dev --filter=@taskflow/extension",
+    "dev:mobile": "turbo run dev --filter=@taskflow/mobile",
     "build": "turbo run build",
     "build:extension": "turbo run build --filter=@taskflow/extension",
     "lint": "turbo run lint",

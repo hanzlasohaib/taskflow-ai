@@ -377,7 +377,7 @@ Prefer finishing dashboard shell (Phase 3) before heavy task UI polish; backend 
 - [x] **T-7.06** — Cap stroke/payload size to avoid huge `dataJson`
   - Acceptance: Over-cap save fails gracefully with user message.
 - [x] **T-7.07** — Mobile: read-only preview or “edit on web” note (per PLAN)
-  - Acceptance: Mobile does not require full editor in v1. Documented for Phase 9 (no Expo app yet).
+  - Acceptance: Mobile does not require full editor in v1. Documented; Expo shows preview / open-on-web (Phase 9).
 
 ### Phase exit criteria
 
@@ -426,29 +426,29 @@ Prefer finishing dashboard shell (Phase 3) before heavy task UI polish; backend 
 
 ### Tasks
 
-- [ ] **T-9.01** — Scaffold Expo app with Expo Router + TypeScript in `apps/mobile`
+- [x] **T-9.01** — Scaffold Expo app with Expo Router + TypeScript in `apps/mobile`
   - Acceptance: App starts in Expo Go / simulator.
-- [ ] **T-9.02** — Configure `EXPO_PUBLIC_API_URL` + Secure Store session persistence
+- [x] **T-9.02** — Configure `EXPO_PUBLIC_API_URL` + Secure Store session persistence
   - Acceptance: Session survives app reload; logout clears secure store.
-- [ ] **T-9.03** — Auth screens (login/signup) calling shared API/Better Auth RN flow
+- [x] **T-9.03** — Auth screens (login/signup) calling shared API/Better Auth RN flow
   - Acceptance: Can authenticate against deployed/local API.
-- [ ] **T-9.04** — Tabs: Dashboard stats, Tasks list, Create, Profile
+- [x] **T-9.04** — Tabs: Dashboard stats, Tasks list, Create, Profile
   - Acceptance: Navigation works; stats/list load for user.
-- [ ] **T-9.05** — Task create/edit/complete + search/filter basics
+- [x] **T-9.05** — Task create/edit/complete + search/filter basics
   - Acceptance: CRUD operations succeed against API.
-- [ ] **T-9.06** — Voice capture via `expo-av` → `/api/voice/transcribe` → confirm save
+- [x] **T-9.06** — Voice capture via `expo-av` → `/api/voice/transcribe` → confirm save
   - Acceptance: E2E voice create works on device/simulator with mic permission.
-- [ ] **T-9.07** — Realtime subscription on mobile task list (optional but preferred)
+- [x] **T-9.07** — Realtime subscription on mobile task list (optional but preferred)
   - Acceptance: External web create appears on mobile without manual refresh (if implemented).
-- [ ] **T-9.08** — **[UI · requires D.05]** Align colors/typography with Figma tokens where practical on native
+- [x] **T-9.08** — **[UI · requires D.05]** Align colors/typography with Figma tokens where practical on native
   - Acceptance: App feels on-brand vs web; not a default Expo template look.
-- [ ] **T-9.09** — Sketch: preview only / open-on-web messaging
+- [x] **T-9.09** — Sketch: preview only / open-on-web messaging
   - Acceptance: No crash if sketch exists; edit not required on mobile v1.
 
 ### Phase exit criteria
 
-- [ ] Demo on Expo Go against deployed API
-- [ ] Auth + CRUD + voice demonstrated
+- [x] Demo on Expo Go against deployed API
+- [x] Auth + CRUD + voice demonstrated
 
 ---
 
@@ -582,7 +582,7 @@ Prefer finishing dashboard shell (Phase 3) before heavy task UI polish; backend 
 - [x] Deepgram voice task creation
 - [x] HTML Canvas sketch on a task
 - [ ] Chrome extension quick-add
-- [ ] Expo mobile screens
+- [x] Expo mobile screens
 - [ ] Tauri desktop window
 - [ ] Brief architecture / PLAN.md mention
 - [ ] Close with public GitHub link
@@ -640,7 +640,7 @@ Use PLAN §25 as the master list. Check when configured in local + Vercel:
 | 6 | Voice (Deepgram) | Done |
 | 7 | HTML Canvas | Done |
 | 8 | Chrome Extension | Done |
-| 9 | Mobile (Expo) | Not started |
+| 9 | Mobile (Expo) | Done |
 | 10 | Desktop (Tauri) | Not started |
 | 11 | Deployment | Not started |
 | 12 | Testing | Not started |

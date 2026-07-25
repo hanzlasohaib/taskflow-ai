@@ -14,7 +14,7 @@ Architecture is frozen in [`docs/PLAN.md`](docs/PLAN.md). Implementation checkli
 ```text
 apps/
   web/         Next.js (App Router) — primary web app + API host
-  mobile/      Expo stub (Phase 9)
+  mobile/      Expo React Native app (Phase 9)
   desktop/     Tauri stub (Phase 10)
   extension/   Chrome MV3 quick-add (Phase 8)
 packages/
@@ -50,6 +50,16 @@ pnpm dev:web
 
 Open [http://localhost:3000](http://localhost:3000).
 
+## Develop (mobile)
+
+```bash
+cp apps/mobile/.env.example apps/mobile/.env
+# set EXPO_PUBLIC_API_URL to your LAN IP for a physical device
+pnpm dev:mobile
+```
+
+See [`apps/mobile/README.md`](apps/mobile/README.md) for Expo Go, auth, and realtime setup.
+
 Or run all app `dev` scripts via Turborepo:
 
 ```bash
@@ -64,6 +74,8 @@ pnpm dev
 | `pnpm lint` | Lint via Turborepo |
 | `pnpm typecheck` | Typecheck via Turborepo |
 | `pnpm format` | Format with Prettier |
+| `pnpm dev:mobile` | Start Expo (mobile) |
+| `pnpm dev:extension` | Start Chrome extension Vite build |
 
 ## Authentication setup (Phase 2)
 
@@ -181,7 +193,7 @@ Without the bucket, stroke save/load still works; PNG upload is skipped with a s
 3. **Save sketch**, then hard-reload — strokes restore.
 4. Caps: ≤ 256 KB JSON, 500 strokes, 20k points total.
 
-**Mobile (Phase 9):** full canvas edit stays on web; mobile should show a read-only preview (or “edit on web”) when that app lands.
+**Mobile:** full canvas edit stays on web; the Expo app shows a read-only preview (or “Edit sketch on web”) on task detail.
 
 ## License
 
