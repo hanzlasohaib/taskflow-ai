@@ -16,7 +16,7 @@ apps/
   web/         Next.js (App Router) — primary web app + API host
   mobile/      Expo stub (Phase 9)
   desktop/     Tauri stub (Phase 10)
-  extension/   Chrome MV3 stub (Phase 8)
+  extension/   Chrome MV3 quick-add (Phase 8)
 packages/
   config/      Shared TSConfig / ESLint
   types/       Shared domain types

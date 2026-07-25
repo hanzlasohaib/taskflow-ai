@@ -1,6 +1,29 @@
 {
   "name": "@taskflow/extension",
-  "version": "0.0.0",
+  "version": "0.6.0",
   "private": true,
-  "description": "Chrome MV3 extension stub — implemented in Phase 8"
+  "type": "module",
+  "description": "TaskFlow Chrome MV3 quick-add extension",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@taskflow/types": "workspace:*",
+    "@taskflow/utils": "workspace:*",
+    "@taskflow/validation": "workspace:*",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^2.2.0",
+    "@types/chrome": "^0.0.326",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.6.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
+  }
 }

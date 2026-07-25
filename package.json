@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "turbo run dev",
     "dev:web": "turbo run dev --filter=@taskflow/web",
+    "dev:extension": "turbo run dev --filter=@taskflow/extension",
     "build": "turbo run build",
+    "build:extension": "turbo run build --filter=@taskflow/extension",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,css}\"",

@@ -944,11 +944,11 @@ Capture tasks without leaving the current browser tab — quick add + glance at 
 
 ### Features (v1)
 
-- [ ] Login status indicator
-- [ ] Quick-add task (title + priority)
-- [ ] List recent 5 tasks
-- [ ] Open task in web app
-- [ ] Theme-aware popup styling (light/dark)
+- [x] Login status indicator
+- [x] Quick-add task (title + priority)
+- [x] List recent 5 tasks
+- [x] Open task in web app
+- [x] Theme-aware popup styling (light/dark)
 
 ### Authentication
 

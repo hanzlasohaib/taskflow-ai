@@ -396,23 +396,23 @@ Prefer finishing dashboard shell (Phase 3) before heavy task UI polish; backend 
 
 ### Tasks
 
-- [ ] **T-8.01** — Scaffold `apps/extension` Manifest V3 (popup + service worker)
+- [x] **T-8.01** — Scaffold `apps/extension` Manifest V3 (popup + service worker)
   - Acceptance: Loads as unpacked extension in Chrome without errors.
-- [ ] **T-8.02** — Implement extension auth (token login stored in `chrome.storage.session`)
+- [x] **T-8.02** — Implement extension auth (token login stored in `chrome.storage.session`)
   - Acceptance: User can sign in from popup; session persists for browser session.
-- [ ] **T-8.03** — Quick-add task form calling `POST /api/tasks`
+- [x] **T-8.03** — Quick-add task form calling `POST /api/tasks`
   - Acceptance: Created task appears in web app for same user.
-- [ ] **T-8.04** — Show recent 5 tasks + open-in-web link
+- [x] **T-8.04** — Show recent 5 tasks + open-in-web link
   - Acceptance: List loads; link opens correct web URL.
-- [ ] **T-8.05** — **[UI · requires D.05]** Theme popup to approximate Figma/web tokens (light/dark)
+- [x] **T-8.05** — **[UI · requires D.05]** Theme popup to approximate Figma/web tokens (light/dark)
   - Acceptance: Popup is readable and on-brand; not unstyled default HTML.
-- [ ] **T-8.06** — Document load/unpacked steps in README
+- [x] **T-8.06** — Document load/unpacked steps in README
   - Acceptance: Demo steps reproducible.
 
 ### Phase exit criteria
 
-- [ ] Logged-in popup creates task visible in web
-- [ ] MV3 only (no MV2)
+- [x] Logged-in popup creates task visible in web
+- [x] MV3 only (no MV2)
 
 ---
 
@@ -639,7 +639,7 @@ Use PLAN §25 as the master list. Check when configured in local + Vercel:
 | 5 | Realtime | Done |
 | 6 | Voice (Deepgram) | Done |
 | 7 | HTML Canvas | Done |
-| 8 | Chrome Extension | Not started |
+| 8 | Chrome Extension | Done |
 | 9 | Mobile (Expo) | Not started |
 | 10 | Desktop (Tauri) | Not started |
 | 11 | Deployment | Not started |
