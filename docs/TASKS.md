@@ -462,21 +462,21 @@ Prefer finishing dashboard shell (Phase 3) before heavy task UI polish; backend 
 
 ### Tasks
 
-- [ ] **T-10.01** — Scaffold `apps/desktop` Tauri project
+- [x] **T-10.01** — Scaffold `apps/desktop` Tauri project
   - Acceptance: `tauri dev` opens a window.
-- [ ] **T-10.02** — Point webview to env-configurable web URL (`TAURI_WEB_URL`)
+- [x] **T-10.02** — Point webview to env-configurable web URL (`TAURI_WEB_URL`)
   - Acceptance: Loads local or deployed TaskFlow web app.
-- [ ] **T-10.03** — Verify login + CRUD inside desktop window
+- [x] **T-10.03** — Verify login + CRUD inside desktop window
   - Acceptance: Same flows as browser work in webview.
-- [ ] **T-10.04** — Produce Windows build artifact for demo (`.msi` / `.exe`)
+- [x] **T-10.04** — Produce Windows build artifact for demo (`.msi` / `.exe`)
   - Acceptance: Built binary launches and loads app.
-- [ ] **T-10.05** — Document Rust/WebView2 prerequisites + build commands
+- [x] **T-10.05** — Document Rust/WebView2 prerequisites + build commands
   - Acceptance: README section sufficient for demo machine setup.
 
 ### Phase exit criteria
 
-- [ ] Desktop window runs TaskFlow with auth + tasks
-- [ ] Demo artifact available for Loom
+- [x] Desktop window runs TaskFlow with auth + tasks
+- [x] Demo artifact available for Loom
 
 ---
 
@@ -583,7 +583,7 @@ Prefer finishing dashboard shell (Phase 3) before heavy task UI polish; backend 
 - [x] HTML Canvas sketch on a task
 - [ ] Chrome extension quick-add
 - [x] Expo mobile screens
-- [ ] Tauri desktop window
+- [x] Tauri desktop window
 - [ ] Brief architecture / PLAN.md mention
 - [ ] Close with public GitHub link
 
@@ -611,7 +611,7 @@ Use PLAN §25 as the master list. Check when configured in local + Vercel:
 - [x] Storage bucket name / sketch storage config
 - [ ] `EXPO_PUBLIC_API_URL` (+ Supabase public vars for mobile)
 - [ ] Extension API URL
-- [ ] `TAURI_WEB_URL`
+- [x] `TAURI_WEB_URL`
 
 ### Security (from PLAN §27 — verify before submission)
 

@@ -1424,7 +1424,7 @@ Record a single walkthrough covering:
 - [ ] HTML Canvas sketch on a task
 - [ ] Chrome extension quick-add
 - [ ] Expo mobile screens (simulator or device)
-- [ ] Tauri desktop window
+- [x] Tauri desktop window
 - [ ] Brief architecture diagram / PLAN.md mention
 - [ ] Close with public GitHub link
 

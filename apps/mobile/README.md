@@ -80,7 +80,7 @@ Then open in Expo Go (scan QR) or press `a` / `i` for an emulator.
 - Login / signup
 - Tabs: Dashboard, Tasks (search/filter), Create (form + voice), Profile
 - Task detail: edit, complete, delete
-- Voice: `expo-av` → `POST /api/voice/transcribe` → confirm save
+- Voice: `expo-audio` → `POST /api/voice/transcribe` → confirm save
 - Realtime: Supabase channel refreshes task list / stats
 - Sketch: preview image when available; otherwise “Edit sketch on web”
 

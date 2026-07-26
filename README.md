@@ -15,7 +15,7 @@ Architecture is frozen in [`docs/PLAN.md`](docs/PLAN.md). Implementation checkli
 apps/
   web/         Next.js (App Router) — primary web app + API host
   mobile/      Expo React Native app (Phase 9)
-  desktop/     Tauri stub (Phase 10)
+  desktop/     Tauri desktop shell (Phase 10)
   extension/   Chrome MV3 quick-add (Phase 8)
 packages/
   config/      Shared TSConfig / ESLint
@@ -60,6 +60,17 @@ pnpm dev:mobile
 
 See [`apps/mobile/README.md`](apps/mobile/README.md) for Expo Go, auth, and realtime setup.
 
+## Develop (desktop)
+
+Requires Rust + MSVC Build Tools + WebView2. See [`apps/desktop/README.md`](apps/desktop/README.md).
+
+```bash
+cp apps/desktop/.env.example apps/desktop/.env
+pnpm dev:web
+# other terminal
+pnpm dev:desktop
+```
+
 Or run all app `dev` scripts via Turborepo:
 
 ```bash
@@ -75,6 +86,8 @@ pnpm dev
 | `pnpm typecheck` | Typecheck via Turborepo |
 | `pnpm format` | Format with Prettier |
 | `pnpm dev:mobile` | Start Expo (mobile) |
+| `pnpm dev:desktop` | Start Tauri desktop shell |
+| `pnpm build:desktop` | Build Windows desktop installer |
 | `pnpm dev:extension` | Start Chrome extension Vite build |
 
 ## Authentication setup (Phase 2)

@@ -1,6 +1,15 @@
 {
   "name": "@taskflow/desktop",
-  "version": "0.0.0",
+  "version": "0.8.0",
   "private": true,
-  "description": "Tauri desktop shell stub — implemented in Phase 10"
+  "description": "TaskFlow Tauri desktop shell - loads the web app in a native window",
+  "scripts": {
+    "dev": "tauri dev",
+    "build:bundle": "tauri build",
+    "tauri": "tauri",
+    "info": "tauri info"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.11.4"
+  }
 }

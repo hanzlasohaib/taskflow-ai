@@ -1,0 +1,8 @@
+# Windows network resilience for crate downloads.
+[http]
+check-revoke = false
+multiplexing = false
+timeout = 600
+
+[net]
+retry = 10

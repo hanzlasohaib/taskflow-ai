@@ -1,8 +1,14 @@
 import type { TaskPriority } from "@taskflow/types";
 import { TASK_PRIORITY_LABELS } from "@taskflow/utils";
-import { Audio } from "expo-av";
+import {
+  AudioModule,
+  RecordingPresets,
+  setAudioModeAsync,
+  useAudioRecorder,
+  useAudioRecorderState,
+} from "expo-audio";
 import { useRouter } from "expo-router";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -24,7 +30,8 @@ const PRIORITIES: TaskPriority[] = ["LOW", "MEDIUM", "HIGH", "URGENT"];
 export default function CreateScreen() {
   const colors = useTheme();
   const router = useRouter();
-  const recordingRef = useRef<Audio.Recording | null>(null);
+  const audioRecorder = useAudioRecorder(RecordingPresets.HIGH_QUALITY);
+  const recorderState = useAudioRecorderState(audioRecorder);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -32,51 +39,36 @@ export default function CreateScreen() {
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
-  const [recording, setRecording] = useState(false);
   const [transcribing, setTranscribing] = useState(false);
-
-  useEffect(() => {
-    return () => {
-      void recordingRef.current?.stopAndUnloadAsync().catch(() => undefined);
-    };
-  }, []);
 
   async function startRecording() {
     setError(null);
     setInfo(null);
     try {
-      const permission = await Audio.requestPermissionsAsync();
+      const permission = await AudioModule.requestRecordingPermissionsAsync();
       if (!permission.granted) {
         setError("Microphone permission is required for voice capture.");
         return;
       }
 
-      await Audio.setAudioModeAsync({
-        allowsRecordingIOS: true,
-        playsInSilentModeIOS: true,
+      await setAudioModeAsync({
+        allowsRecording: true,
+        playsInSilentMode: true,
       });
 
-      const { recording: next } = await Audio.Recording.createAsync(
-        Audio.RecordingOptionsPresets.HIGH_QUALITY,
-      );
-      recordingRef.current = next;
-      setRecording(true);
+      await audioRecorder.prepareToRecordAsync();
+      audioRecorder.record();
     } catch {
       setError("Unable to start recording.");
     }
   }
 
   async function stopRecordingAndTranscribe() {
-    setRecording(false);
-    const active = recordingRef.current;
-    recordingRef.current = null;
-    if (!active) return;
-
     setTranscribing(true);
     setError(null);
     try {
-      await active.stopAndUnloadAsync();
-      const uri = active.getURI();
+      await audioRecorder.stop();
+      const uri = audioRecorder.uri;
       if (!uri) {
         setError("Recording failed — no audio file.");
         return;
@@ -94,7 +86,7 @@ export default function CreateScreen() {
       setError(err instanceof ApiError ? err.message : "Voice transcription failed");
     } finally {
       setTranscribing(false);
-      await Audio.setAudioModeAsync({ allowsRecordingIOS: false }).catch(() => undefined);
+      await setAudioModeAsync({ allowsRecording: false }).catch(() => undefined);
     }
   }
 
@@ -118,6 +110,8 @@ export default function CreateScreen() {
       setSaving(false);
     }
   }
+
+  const isRecording = recorderState.isRecording;
 
   return (
     <KeyboardAvoidingView
@@ -174,10 +168,10 @@ export default function CreateScreen() {
           {info ? <Text style={[styles.message, { color: colors.secondary }]}>{info}</Text> : null}
 
           <Button
-            title={recording ? "Stop & transcribe" : transcribing ? "Transcribing…" : "Record voice"}
+            title={isRecording ? "Stop & transcribe" : transcribing ? "Transcribing…" : "Record voice"}
             variant="secondary"
             loading={transcribing}
-            onPress={() => void (recording ? stopRecordingAndTranscribe() : startRecording())}
+            onPress={() => void (isRecording ? stopRecordingAndTranscribe() : startRecording())}
           />
           <Button title="Save task" loading={saving} onPress={() => void onSave()} />
         </View>
