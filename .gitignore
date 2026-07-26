@@ -7,6 +7,7 @@ node_modules
 out
 dist
 build
+.expo/*
 .turbo
 
 # env
@@ -34,6 +35,7 @@ test-results
 # tauri / mobile
 apps/desktop/src-tauri/target
 apps/mobile/.expo
+apps/mobile/.vscode/*
 apps/mobile/dist
 
 # misc
