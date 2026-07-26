@@ -11,6 +11,7 @@ config.resolver.nodeModulesPaths = [
   path.resolve(projectRoot, "node_modules"),
   path.resolve(workspaceRoot, "node_modules"),
 ];
-config.resolver.disableHierarchicalLookup = true;
+// Allow resolving Expo transitive deps from their real pnpm paths.
+config.resolver.disableHierarchicalLookup = false;
 
 module.exports = config;

@@ -13,6 +13,10 @@ import { prisma } from "@/lib/prisma";
 
 const appUrl = process.env.BETTER_AUTH_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
+/** Skip captcha in `next dev` so prod keys in `.env` do not break localhost domains. */
+const recaptchaActive =
+  Boolean(recaptchaSecret) &&
+  (process.env.NODE_ENV === "production" || process.env.RECAPTCHA_FORCE === "true");
 
 /** Comma-separated origins (e.g. chrome-extension://… for the MV3 popup). */
 const trustedOrigins = (process.env.BETTER_AUTH_TRUSTED_ORIGINS ?? "")
@@ -63,11 +67,11 @@ export const auth = betterAuth({
     twoFactor({
       issuer: "TaskFlow",
     }),
-    ...(recaptchaSecret
+    ...(recaptchaActive
       ? [
           captcha({
             provider: "google-recaptcha",
-            secretKey: recaptchaSecret,
+            secretKey: recaptchaSecret!,
             minScore: 0.5,
           }),
         ]

@@ -1,6 +1,10 @@
 "use client";
 
 const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+/** Allow keeping prod keys in `.env` for Vercel sync without breaking localhost. */
+const FORCE = process.env.NEXT_PUBLIC_RECAPTCHA_FORCE === "true";
+const ACTIVE =
+  Boolean(SITE_KEY) && (process.env.NODE_ENV === "production" || FORCE);
 
 declare global {
   interface Window {
@@ -14,7 +18,7 @@ declare global {
 let scriptPromise: Promise<void> | null = null;
 
 function loadRecaptchaScript(): Promise<void> {
-  if (!SITE_KEY) return Promise.resolve();
+  if (!ACTIVE || !SITE_KEY) return Promise.resolve();
   if (window.grecaptcha) return Promise.resolve();
   if (scriptPromise) return scriptPromise;
 
@@ -38,9 +42,9 @@ function loadRecaptchaScript(): Promise<void> {
   return scriptPromise;
 }
 
-/** Returns a reCAPTCHA v3 token, or null when site key is not configured (local/dev). */
+/** Returns a reCAPTCHA v3 token, or null when captcha is inactive (local/dev). */
 export async function getRecaptchaToken(action: string): Promise<string | null> {
-  if (!SITE_KEY) return null;
+  if (!ACTIVE || !SITE_KEY) return null;
   await loadRecaptchaScript();
 
   return new Promise((resolve, reject) => {
@@ -60,4 +64,4 @@ export function captchaHeaders(token: string | null): HeadersInit | undefined {
   return { "x-captcha-response": token };
 }
 
-export const isRecaptchaEnabled = Boolean(SITE_KEY);
+export const isRecaptchaEnabled = ACTIVE;
