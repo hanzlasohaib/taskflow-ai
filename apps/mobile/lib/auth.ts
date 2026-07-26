@@ -1,7 +1,17 @@
 import type { ApiErrorBody } from "@taskflow/types";
 
-import { API_URL } from "./config";
+import { API_URL, AUTH_ORIGIN } from "./config";
 import { clearSessionToken, getSessionToken, setSessionToken } from "./storage";
+
+/** RN/Expo omit Origin; Better Auth requires it for CSRF checks. */
+function authHeaders(extra?: HeadersInit): HeadersInit {
+  return {
+    "Content-Type": "application/json",
+    Origin: AUTH_ORIGIN,
+    "expo-origin": AUTH_ORIGIN,
+    ...extra,
+  };
+}
 
 export type MobileUser = {
   id: string;
@@ -60,11 +70,23 @@ function toUser(user: { id: string; email: string; name?: string | null }): Mobi
 export async function signIn(email: string, password: string): Promise<MobileUser> {
   const response = await fetch(`${API_URL}/api/auth/sign-in/email`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: authHeaders(),
     body: JSON.stringify({ email, password }),
   });
 
   if (!response.ok) throw await parseAuthError(response);
+
+  const body = (await response.json()) as SessionResponse & {
+    twoFactorRedirect?: boolean;
+  };
+
+  if (body.twoFactorRedirect) {
+    throw new AuthError(
+      403,
+      "TWO_FACTOR_REQUIRED",
+      "This account has 2FA enabled. Complete sign-in on the web app (or disable 2FA) — mobile 2FA challenge is not available yet.",
+    );
+  }
 
   const token = response.headers.get("set-auth-token");
   if (!token) {
@@ -76,8 +98,6 @@ export async function signIn(email: string, password: string): Promise<MobileUse
   }
 
   await setSessionToken(token);
-
-  const body = (await response.json()) as SessionResponse;
   const user = body.user;
   if (!user?.id || !user.email) {
     const session = await getSession();
@@ -101,7 +121,7 @@ export async function signUp(input: {
 }): Promise<{ user: MobileUser | null; needsVerification: boolean }> {
   const response = await fetch(`${API_URL}/api/auth/sign-up/email`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: authHeaders(),
     body: JSON.stringify({
       name: input.name,
       email: input.email,
@@ -134,7 +154,7 @@ export async function getSession(): Promise<MobileUser | null> {
 
   const response = await fetch(`${API_URL}/api/auth/get-session`, {
     method: "GET",
-    headers: { Authorization: `Bearer ${token}` },
+    headers: authHeaders({ Authorization: `Bearer ${token}` }),
   });
 
   if (response.status === 401) {
@@ -162,10 +182,7 @@ export async function signOut(): Promise<void> {
     try {
       await fetch(`${API_URL}/api/auth/sign-out`, {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+        headers: authHeaders({ Authorization: `Bearer ${token}` }),
         body: JSON.stringify({}),
       });
     } catch {

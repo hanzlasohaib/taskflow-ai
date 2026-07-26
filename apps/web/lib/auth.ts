@@ -19,16 +19,26 @@ const recaptchaActive =
   (process.env.NODE_ENV === "production" || process.env.RECAPTCHA_FORCE === "true");
 
 /** Comma-separated origins (e.g. chrome-extension://… for the MV3 popup). */
-const trustedOrigins = (process.env.BETTER_AUTH_TRUSTED_ORIGINS ?? "")
+const envTrustedOrigins = (process.env.BETTER_AUTH_TRUSTED_ORIGINS ?? "")
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
+
+/** Mobile / Expo Go schemes (RN fetch has no Origin unless the client sets one). */
+const mobileTrustedOrigins = [
+  "taskflow://",
+  ...(process.env.NODE_ENV !== "production"
+    ? ["exp://*", "http://localhost:8081", "http://127.0.0.1:8081"]
+    : []),
+];
+
+const trustedOrigins = [...new Set([...envTrustedOrigins, ...mobileTrustedOrigins])];
 
 export const auth = betterAuth({
   appName: "TaskFlow",
   baseURL: appUrl,
   secret: process.env.BETTER_AUTH_SECRET ?? "dev-only-taskflow-secret-change-me-32b",
-  trustedOrigins: trustedOrigins.length > 0 ? trustedOrigins : undefined,
+  trustedOrigins,
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),

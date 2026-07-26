@@ -13,3 +13,6 @@ export const APP_URL = trimTrailingSlash(
 export const SUPABASE_URL = trimTrailingSlash(process.env.EXPO_PUBLIC_SUPABASE_URL ?? "");
 
 export const SUPABASE_ANON_KEY = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY ?? "";
+
+/** App scheme from app.json — sent as Origin because RN fetch omits it. */
+export const AUTH_ORIGIN = "taskflow://";
