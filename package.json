@@ -17,6 +17,7 @@
     "build": "turbo run build",
     "build:extension": "turbo run build --filter=@taskflow/extension",
     "build:desktop": "pnpm --filter @taskflow/desktop build:bundle",
+    "sync:downloads": "node scripts/sync-downloads.mjs",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,css}\"",

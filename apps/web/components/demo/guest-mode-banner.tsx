@@ -16,6 +16,12 @@ export function GuestModeBanner() {
       </div>
       <div className="flex shrink-0 items-center gap-2">
         <Link
+          href="/downloads"
+          className="rounded-xl border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground transition-all hover:bg-foreground/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          Downloads
+        </Link>
+        <Link
           href="/login?next=/dashboard"
           className="rounded-xl border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground transition-all hover:bg-foreground/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >

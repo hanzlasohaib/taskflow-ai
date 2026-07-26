@@ -26,7 +26,15 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           >
             TaskFlow
           </Link>
-          <ThemeToggle />
+          <div className="flex items-center gap-3">
+            <Link
+              href="/downloads"
+              className="text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Downloads
+            </Link>
+            <ThemeToggle />
+          </div>
         </header>
         <main className="relative z-10 mx-auto flex w-full max-w-md flex-1 flex-col justify-center gap-6 px-6 pb-12">
           {children}

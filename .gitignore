@@ -37,6 +37,7 @@ apps/desktop/src-tauri/target
 apps/mobile/.expo
 apps/mobile/.vscode/*
 apps/mobile/dist
+.gradle-home
 
 # misc
 *.tsbuildinfo
