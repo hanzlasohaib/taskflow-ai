@@ -36,13 +36,20 @@ function LoginForm() {
 
     try {
       const token = await getRecaptchaToken("login");
-      const { error: signInError } = await authClient.signIn.email(
+      const { data, error: signInError } = await authClient.signIn.email(
         { email, password },
         { headers: captchaHeaders(token) },
       );
 
       if (signInError) {
         setError(signInError.message || "Unable to sign in");
+        return;
+      }
+
+      // 2FA challenge — client plugin also redirects; guard against premature dashboard nav.
+      if (data && "twoFactorRedirect" in data && data.twoFactorRedirect) {
+        const twoFactorUrl = `/two-factor?next=${encodeURIComponent(nextPath)}`;
+        router.push(twoFactorUrl);
         return;
       }
 

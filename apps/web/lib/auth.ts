@@ -1,7 +1,7 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
-import { bearer, captcha } from "better-auth/plugins";
+import { bearer, captcha, twoFactor } from "better-auth/plugins";
 
 import {
   resetPasswordEmailContent,
@@ -60,6 +60,9 @@ export const auth = betterAuth({
   },
   plugins: [
     bearer(),
+    twoFactor({
+      issuer: "TaskFlow",
+    }),
     ...(recaptchaSecret
       ? [
           captcha({

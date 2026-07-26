@@ -72,9 +72,16 @@ if (missing.length) {
 const keys = Object.keys(env).filter((k) => env[k] !== undefined && env[k] !== "");
 const targets = ["production", "preview"];
 
+// Prefer apps/web/.vercel, fall back to repo-root link (where `vercel link` often lives).
+const vercelCwd = existsSync(join(webDir, ".vercel", "project.json"))
+  ? webDir
+  : existsSync(join(root, ".vercel", "project.json"))
+    ? root
+    : webDir;
+
 function runVercel(args, input) {
   const result = spawnSync("vercel", args, {
-    cwd: webDir,
+    cwd: vercelCwd,
     input: input ?? undefined,
     encoding: "utf8",
     shell: true,
@@ -88,7 +95,7 @@ function runVercel(args, input) {
 
 function removeEnv(key, target) {
   spawnSync("vercel", ["env", "rm", key, target, "--yes"], {
-    cwd: webDir,
+    cwd: vercelCwd,
     encoding: "utf8",
     shell: true,
   });

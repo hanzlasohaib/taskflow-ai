@@ -24,20 +24,37 @@ enum TaskPriority {
 }
 
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean
-  image         String?
-  createdAt     DateTime
-  updatedAt     DateTime
-  sessions      Session[]
-  accounts      Account[]
-  tasks         Task[]
-  sketches      Sketch[]
+  id                String      @id
+  name              String
+  email             String
+  emailVerified     Boolean
+  image             String?
+  createdAt         DateTime
+  updatedAt         DateTime
+  twoFactorEnabled  Boolean?    @default(false)
+  sessions          Session[]
+  accounts          Account[]
+  twofactors        TwoFactor[]
+  tasks             Task[]
+  sketches          Sketch[]
 
   @@unique([email])
   @@map("user")
+}
+
+model TwoFactor {
+  id                      String    @id
+  secret                  String
+  backupCodes             String
+  userId                  String
+  user                    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  verified                Boolean?  @default(true)
+  failedVerificationCount Int?      @default(0)
+  lockedUntil             DateTime?
+
+  @@index([secret])
+  @@index([userId])
+  @@map("twoFactor")
 }
 
 model Task {
