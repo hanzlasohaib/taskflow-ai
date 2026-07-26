@@ -20,8 +20,8 @@ import { authClient } from "@/lib/auth-client";
 function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const token = searchParams.get("token");
-  const errorParam = searchParams.get("error");
+  const token = searchParams?.get("token");
+  const errorParam = searchParams?.get("error");
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

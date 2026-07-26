@@ -44,7 +44,7 @@ export function AppSidebar({
   onOpenVoice,
   onRequireAccount,
 }: AppSidebarProps) {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
   const isDemo = variant === "demo";
   const homeHref = isDemo ? "/" : "/dashboard";
 

@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 
-import { ThemeProvider } from "@/components/providers/theme-provider";
-
 import "./globals.css";
-
-import { AgentationProvider } from "@/components/providers/agentation-provider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -27,6 +23,10 @@ export const metadata: Metadata = {
   description: "AI-powered cross-platform task management",
 };
 
+/**
+ * Root layout stays free of client providers so Next can prerender
+ * `/_not-found` without a second React dispatcher (monorepo useContext crash).
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -35,8 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${plusJakarta.variable} ${jetbrains.variable} antialiased`}>
-        <ThemeProvider>{children}</ThemeProvider>
-        <AgentationProvider />
+        {children}
       </body>
     </html>
   );

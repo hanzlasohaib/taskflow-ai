@@ -1,0 +1,29 @@
+# Dependencies & caches
+**/node_modules
+**/.pnpm-store
+**/.turbo
+**/.next
+**/dist
+**/build
+**/.expo
+**/coverage
+
+# Native / desktop build output
+apps/desktop/src-tauri/target
+
+# Local env & secrets
+**/.env
+**/.env.local
+**/.env.*.local
+!**/.env.example
+
+# VCS / IDE / misc
+.git
+**/.DS_Store
+**/.vscode
+**/.idea
+**/src-tauri/target
+apps/mobile/.expo
+.expo
+*.log
+*.tsbuildinfo

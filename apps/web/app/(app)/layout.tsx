@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import { AppProviders } from "@/components/providers/app-providers";
 import { RealtimeProvider } from "@/components/providers/realtime-provider";
 import { AppShell } from "@/components/shell/app-shell";
 import { getSession } from "@/lib/session";
@@ -17,8 +18,10 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const userImage = await resolveAvatarUrl(session.user.image);
 
   return (
-    <AppShell userName={session.user.name || session.user.email} userImage={userImage}>
-      <RealtimeProvider userId={session.user.id}>{children}</RealtimeProvider>
-    </AppShell>
+    <AppProviders>
+      <AppShell userName={session.user.name || session.user.email} userImage={userImage}>
+        <RealtimeProvider userId={session.user.id}>{children}</RealtimeProvider>
+      </AppShell>
+    </AppProviders>
   );
 }

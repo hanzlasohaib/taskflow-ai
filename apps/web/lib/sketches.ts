@@ -4,7 +4,7 @@ import type { SketchDocumentInput, SketchUpdateInput, SketchUpsertInput } from "
 
 import { prisma } from "@/lib/prisma";
 import { resolveSketchUrl } from "@/lib/supabase-admin";
-import { getTaskForUser, TaskNotFoundError } from "@/lib/tasks";
+import { getTaskForUser } from "@/lib/tasks";
 
 export class SketchNotFoundError extends Error {
   readonly code = "NOT_FOUND" as const;

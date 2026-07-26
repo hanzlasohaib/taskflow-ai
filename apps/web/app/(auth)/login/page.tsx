@@ -22,7 +22,7 @@ import { captchaHeaders, getRecaptchaToken, isRecaptchaEnabled } from "@/lib/rec
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const nextPath = searchParams.get("next") || "/dashboard";
+  const nextPath = searchParams?.get("next") || "/dashboard";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
